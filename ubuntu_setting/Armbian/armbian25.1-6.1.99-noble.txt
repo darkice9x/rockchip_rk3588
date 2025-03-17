@@ -1,38 +1,39 @@
 
-image를 만든후에 sdcard의 /boot/armbianEnv.txt에 아래 추가후 부팅.
-sudo nano /boot/armbianEnv.txt
+1. image를 만든후에 sdcard의 /boot/armbianEnv.txt에 아래 추가후 부팅.
+	$ sudo nano /boot/armbianEnv.txt
 	#Add
 	extraargs=video=HDMI-A-1:1920x1080@60 
 	
-부팅후 다시 한번 아래 추가해 준다
-sudo nano /boot/armbianEnv.txt
+	부팅후 다시 한번 아래 추가해 준다
+	$ sudo nano /boot/armbianEnv.txt
 	#Add
 	extraargs=video=HDMI-A-1:1920x1080@60 
-그리고 설정->디스플레이에서 해상도 설정후 저장한후
-sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
+	그리고 설정->디스플레이에서 해상도 설정후 저장한후
+	$ sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
 
-sudo apt-get update
-sudo apt purge chromium
-sudo apt-get upgrade
-# 25.2.3 kernel 6.1.99
-sudo apt-get install geany nemo cpufrequtils net-tools smplayer inxi
-sudo apt -y install ubuntu-desktop dbus-x11 xterm pulseaudio pavucontrol qtwayland5 \
-gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good mpv \
-gstreamer1.0-tools dvb-tools ir-keytable libdvbv5-0 libdvbv5-dev libdvbv5-doc libv4l-0 \
-libv4l2rds0 libv4lconvert0 libv4l-dev qv4l2 v4l-utils libegl-mesa0 libegl1-mesa-dev \
-libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglx-mesa0 mesa-common-dev mesa-vulkan-drivers \
-mesa-utils libcanberra-pulse oem-config-gtk ubiquity-frontend-gtk ubiquity-slideshow-ubuntu \
-gnome-startup-applications gnome-remote-desktop language-selector-gnome \
-im-config cinnamon-l10n
+2. Package 정리
+	$ sudo apt-get update
+	$ sudo apt purge chromium
+	$ sudo apt-get upgrade
+	# 25.2.3 kernel 6.1.99
+	$ sudo apt-get install geany nemo cpufrequtils net-tools smplayer inxi
+	$ sudo apt -y install ubuntu-desktop dbus-x11 xterm pulseaudio pavucontrol qtwayland5 \
+	gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good mpv \
+	gstreamer1.0-tools dvb-tools ir-keytable libdvbv5-0 libdvbv5-dev libdvbv5-doc libv4l-0 \
+	libv4l2rds0 libv4lconvert0 libv4l-dev qv4l2 v4l-utils libegl-mesa0 libegl1-mesa-dev \
+	libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglx-mesa0 mesa-common-dev mesa-vulkan-drivers \
+	mesa-utils libcanberra-pulse oem-config-gtk ubiquity-frontend-gtk ubiquity-slideshow-ubuntu \
+	gnome-startup-applications gnome-remote-desktop language-selector-gnome \
+	im-config cinnamon-l10n
 
-sudo apt install pipewire-alsa
-systemctl --user enable pipewire
-systemctl --user start pipewire
+	$ sudo apt install pipewire-alsa
+	$ systemctl --user enable pipewire
+	$ systemctl --user start pipewire
 
-언어지원에서 한글설정
-설정에서 키보드에 한글 추가
+3. 언어지원에서 한글설정
+	설정에서 키보드에 한글 추가
 
-5. 디렉토리 한글로 변환
+4. 디렉토리 한글로 변환
 	- 한글에서 영문변환 
 	$ export LANG=C $ xdg-user-dirs-gtk-update
  
@@ -40,10 +41,10 @@ systemctl --user start pipewire
 	$ echo "C" > ~/.config/user-dirs.locale
 	$ export LANG=ko_KR.utf8; xdg-user-dirs-gtk-update
 	
-sudo reboot
+	sudo reboot
 
-CPU속도 빠르게 & OpenGL
-	sudo armbian-config
+5. CPU속도 빠르게 & OpenGL
+	$ sudo armbian-config
 	System->CPU
 		CPU freq min 408000 max 2400000 gorvernor preference
 		
@@ -57,42 +58,42 @@ CPU속도 빠르게 & OpenGL
 	$ sudo systemctl disable ondemand
 	$ sudo systemctl restart cpufrequtils
 	
-20. Sound Change
+6. Sound Change
 	$ sudo apt-get install pulseaudio-utils
 	$ pactl list short sinks
 	$ pactl set-default-sink 'alsa_output.platform-hdmi0-sound.stereo-fallback'
 
-기본 터미널 선택
-	sudo update-alternatives --config x-terminal-emulator
+7. 기본 터미널 선택
+	$ sudo update-alternatives --config x-terminal-emulator
 	
-로그인 스크린에서 한글 로케일 설정
-	sudo locale-gen ko_KR.UTF-8
-	sudo dpkg-reconfigure locales
-	sudo -u gdm dbus-launch gsettings set org.gnome.system.locale region 'ko_KR.UTF-8'
-	sudo update-locale LANG=ko_KR.UTF-8 LC_ALL=ko_KR.UTF-8
+8. 로그인 스크린에서 한글 로케일 설정
+	$ sudo locale-gen ko_KR.UTF-8
+	$ sudo dpkg-reconfigure locales
+	$ sudo -u gdm dbus-launch gsettings set org.gnome.system.locale region 'ko_KR.UTF-8'
+	$ sudo update-locale LANG=ko_KR.UTF-8 LC_ALL=ko_KR.UTF-8
 
-Disable autologin on Gnome
-	sudo nano /etc/gdm3/custom.conf
+9. Disable autologin on Gnome
+	$ sudo nano /etc/gdm3/custom.conf
 	[daemon]
 	AutomaticLoginEnable = false
 	AutomaticLogin = darkice
 
-Kernel Update and Upgrade Disable
+10. Kernel Update and Upgrade Disable
 	armbian-firmware
 	linux-headers-vendor-rk35xx
 	linux-dtb-vendor-rk35xx
 	linux-image-vendor-rk35xx
-	sudo apt download armbian-firmware linux-headers-vendor-rk35xx linux-dtb-vendor-rk35xx linux-image-vendor-rk35xx
-	sudo apt-mark hold armbian-firmware linux-headers-vendor-rk35xx linux-dtb-vendor-rk35xx linux-image-vendor-rk35xx
+	$ sudo apt download armbian-firmware linux-headers-vendor-rk35xx linux-dtb-vendor-rk35xx linux-image-vendor-rk35xx
+	$ sudo apt-mark hold armbian-firmware linux-headers-vendor-rk35xx linux-dtb-vendor-rk35xx linux-image-vendor-rk35xx
 
-19. Conky
+11. Conky
 	$ sudo apt-get install build-essential git valac libgee-0.8-dev libgtk-3-dev libjson-glib-dev gettext libgettextpo-dev p7zip-full imagemagick
 	$ sudo apt install conky-all
 	$ git clone https://github.com/zcot/conky-manager2.git
 	$ make
 	$ sudo make install
 
-9. 폰트 설치
+12. 폰트 설치
 	Powerline 글씨체가 아니라서 폰트가 깨지는 것을 확인할 수 있음
 	Meslo LG M Regular for Powerline 글씨체 다운 및 설치
 
@@ -105,7 +106,7 @@ Kernel Update and Upgrade Disable
 	$ cd ..
 	$ rm -rf fonts
 	
-10. ZSH 설치
+13. ZSH 설치
 	$ sudo apt-get install -y zsh
 	$ chsh -s /usr/bin/zsh
 	$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -138,7 +139,7 @@ Kernel Update and Upgrade Disable
 	
 	terminal restart
 	
-16. Python 설치
+14. Python 설치
 	$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh
 	$ bash Miniconda3-latest-Linux-aarch64.sh
 	터미널 다시 열기
@@ -147,7 +148,7 @@ Kernel Update and Upgrade Disable
 	$ python -m pip install --upgrade pip
 	$ pip install jupyter  or $ conda install jupyter
 
-17. Pi-Apps Install
+15. Pi-Apps Install
 	$ wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bash
 	설치할 프로그램
 	Tools->FF Multi Converter
@@ -155,64 +156,59 @@ Kernel Update and Upgrade Disable
 	System Management->Synaptic
 	System Management->System Monitoring Center
 	
-20. Sound Change
+16. Sound Change
 	$ sudo apt-get install pulseaudio-utils
 	$ pactl list short sinks
 	$ pactl set-default-sink 'alsa_output.platform-hdmi0-sound.stereo-fallback'
 
-21.rknpu버전
+17.rknpu버전
 	sudo cat /sys/kernel/debug/rknpu/version
 	dmesg | grep -i rknpu
 	
-22.DDK 버전
-	journalctl -b |  grep DDK
-	dmesg | grep -i DDK
-	
-23. u boot 버전
+18. u boot 버전
 	sudo dpkg-query -l | grep u-boot
 	
-24. mpv설정
+19. mpv설정
 	sudo nano /etc/mpv/mpv.conf
 	hwdec=rkmpp 를 hwdec=vdpau나 hwdec=vaapi로 설정
 	
 	환경설정->일반->비디오 출력드라이버 vdpau
 	환경설정->고급->Mplayer/mpv 옵션에 --config=yes로 설정해야 mpv local 설정이 적용됨
 	
-25. startup sound
+20. startup sound
 	ExtUSB/Backup/Sounds/Yaru 디렉토리를 .local/share/sounds/에 복사한다.
 	Launch "Startup Applications", and click "Add". Here's what you need to put in Startup Applications' dialog box:
 	Command: /usr/bin/canberra-gtk-play --id="desktop-login" --description="GNOME Login" 
 	Description: Plays a sound at login (or whatever you choose)
 	
-14. nginx install
-	sudo apt update && sudo apt -y upgrade
-	sudo apt install curl gnupg2 ca-certificates lsb-release
+21. nginx install
+	$ sudo apt update && sudo apt -y upgrade
+	$ sudo apt install curl gnupg2 ca-certificates lsb-release
 	mainline
 		echo "deb http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
 		| sudo tee /etc/apt/sources.list.d/nginx.list
 	stable
 		echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
 		| sudo tee /etc/apt/sources.list.d/nginx.list
-	curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor > packages.nginx.gpg
-	sudo install -o root -g root -m 644 packages.nginx.gpg /etc/apt/trusted.gpg.d/
-	rm -f packages.nginx.gpg
-	sudo apt update
-	sudo apt list nginx
-	sudo apt install nginx
-	systemctl enable nginx 
-	service nginx start 
+	$ curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor > packages.nginx.gpg
+	$ sudo install -o root -g root -m 644 packages.nginx.gpg /etc/apt/trusted.gpg.d/
+	$ rm -f packages.nginx.gpg
+	$ sudo apt update
+	$ sudo apt install nginx
+	$ systemctl enable nginx 
+	$ service nginx start 
 	
 	uninstall 
-	sudo apt-get remove --purge nginx nginx-full nginx-common 
+	$ sudo apt-get remove --purge nginx nginx-full nginx-common 
 	
-15. casaOs 설치
+22. casaOs 설치
 	$ wget -qO- https://get.casaos.io | sudo bash
 	or
 	$ curl -fsSL https://get.casaos.io | sudo bash
 
 	port 변경
-	cd /etc/casaos
-	sudo nano gateway.ini
+	$ cd /etc/casaos
+	$ sudo nano gateway.ini
 	gateway->port = 80을 바꾼다.
 	
 	$ systemctl restart casaos
@@ -220,16 +216,16 @@ Kernel Update and Upgrade Disable
 	uninstall
 	$ sudo casaos-uninstall
 	
-18. Boot Screen Logo
-	git clone https://github.com/adi1090x/plymouth-themes.git
-	sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/rog_2/rog_2.plymouth 100
-	sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/ubuntu-vision/ubuntu-vision.plymouth 100
-	sudo apt install plymouth-x11
-	sudo update-alternatives --config default.plymouth
-	sudo plymouthd; sudo plymouth --show-splash; sleep 8; sudo plymouth --quit
-	sudo update-initramfs -u
+23. Boot Screen Logo
+	# git clone https://github.com/adi1090x/plymouth-themes.git
+	# sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/rog_2/rog_2.plymouth 100
+	# sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/ubuntu-vision/ubuntu-vision.plymouth 100
+	# sudo apt install plymouth-x11
+	# sudo update-alternatives --config default.plymouth
+	# sudo plymouthd; sudo plymouth --show-splash; sleep 8; sudo plymouth --quit
+	# sudo update-initramfs -u
 	
-프로그램 설치에 대해
+24. 프로그램 설치에 대해
 	thunar에 관리자 권한 메뉴 추가
 	편집->사용자정의 동작설정
 		이름: 관리자권한으로 열기
@@ -418,7 +414,6 @@ EOF
 	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart7-m2.dtbo
 	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart7-m1.dtbo
 	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart8-m1.dtbo
-	
 	
 	sudo nano /boot/armbianEnv.txt
 	overlay_prefix=rk3588
