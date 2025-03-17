@@ -1,0 +1,430 @@
+
+image를 만든후에 sdcard의 /boot/armbianEnv.txt에 아래 추가후 부팅.
+sudo nano /boot/armbianEnv.txt
+	#Add
+	extraargs=video=HDMI-A-1:1920x1080@60 
+	
+부팅후 다시 한번 아래 추가해 준다
+sudo nano /boot/armbianEnv.txt
+	#Add
+	extraargs=video=HDMI-A-1:1920x1080@60 
+그리고 설정->디스플레이에서 해상도 설정후 저장한후
+sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
+
+sudo apt-get update
+sudo apt purge chromium
+sudo apt-get upgrade
+# 25.2.3 kernel 6.1.99
+sudo apt-get install geany nemo cpufrequtils net-tools smplayer inxi
+sudo apt -y install ubuntu-desktop dbus-x11 xterm pulseaudio pavucontrol qtwayland5 \
+gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good mpv \
+gstreamer1.0-tools dvb-tools ir-keytable libdvbv5-0 libdvbv5-dev libdvbv5-doc libv4l-0 \
+libv4l2rds0 libv4lconvert0 libv4l-dev qv4l2 v4l-utils libegl-mesa0 libegl1-mesa-dev \
+libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglx-mesa0 mesa-common-dev mesa-vulkan-drivers \
+mesa-utils libcanberra-pulse oem-config-gtk ubiquity-frontend-gtk ubiquity-slideshow-ubuntu \
+gnome-startup-applications gnome-remote-desktop language-selector-gnome \
+im-config cinnamon-l10n
+
+sudo apt install pipewire-alsa
+systemctl --user enable pipewire
+systemctl --user start pipewire
+
+언어지원에서 한글설정
+설정에서 키보드에 한글 추가
+
+5. 디렉토리 한글로 변환
+	- 한글에서 영문변환 
+	$ export LANG=C $ xdg-user-dirs-gtk-update
+ 
+	- 영문에서 한글로 변환
+	$ echo "C" > ~/.config/user-dirs.locale
+	$ export LANG=ko_KR.utf8; xdg-user-dirs-gtk-update
+	
+sudo reboot
+
+CPU속도 빠르게 & OpenGL
+	sudo armbian-config
+	System->CPU
+		CPU freq min 408000 max 2400000 gorvernor preference
+		
+	$ sudo apt-get install cpufrequtils
+	$ sudo nano /etc/default/cpufrequtils
+		ENABLE=true
+		MIN_SPEED=408000
+		MAX_SPEED=2400000
+		GOVERNOR=performance
+
+	$ sudo systemctl disable ondemand
+	$ sudo systemctl restart cpufrequtils
+	
+20. Sound Change
+	$ sudo apt-get install pulseaudio-utils
+	$ pactl list short sinks
+	$ pactl set-default-sink 'alsa_output.platform-hdmi0-sound.stereo-fallback'
+
+기본 터미널 선택
+	sudo update-alternatives --config x-terminal-emulator
+	
+로그인 스크린에서 한글 로케일 설정
+	sudo locale-gen ko_KR.UTF-8
+	sudo dpkg-reconfigure locales
+	sudo -u gdm dbus-launch gsettings set org.gnome.system.locale region 'ko_KR.UTF-8'
+	sudo update-locale LANG=ko_KR.UTF-8 LC_ALL=ko_KR.UTF-8
+
+Disable autologin on Gnome
+	sudo nano /etc/gdm3/custom.conf
+	[daemon]
+	AutomaticLoginEnable = false
+	AutomaticLogin = darkice
+
+Kernel Update and Upgrade Disable
+	armbian-firmware
+	linux-headers-vendor-rk35xx
+	linux-dtb-vendor-rk35xx
+	linux-image-vendor-rk35xx
+	sudo apt download armbian-firmware linux-headers-vendor-rk35xx linux-dtb-vendor-rk35xx linux-image-vendor-rk35xx
+	sudo apt-mark hold armbian-firmware linux-headers-vendor-rk35xx linux-dtb-vendor-rk35xx linux-image-vendor-rk35xx
+
+19. Conky
+	$ sudo apt-get install build-essential git valac libgee-0.8-dev libgtk-3-dev libjson-glib-dev gettext libgettextpo-dev p7zip-full imagemagick
+	$ sudo apt install conky-all
+	$ git clone https://github.com/zcot/conky-manager2.git
+	$ make
+	$ sudo make install
+
+9. 폰트 설치
+	Powerline 글씨체가 아니라서 폰트가 깨지는 것을 확인할 수 있음
+	Meslo LG M Regular for Powerline 글씨체 다운 및 설치
+
+	# clone
+	$ git clone https://github.com/powerline/fonts.git --depth=1
+	# install
+	$ cd fonts
+	$ ./install.sh
+	# clean-up a bit
+	$ cd ..
+	$ rm -rf fonts
+	
+10. ZSH 설치
+	$ sudo apt-get install -y zsh
+	$ chsh -s /usr/bin/zsh
+	$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+	
+	Font 저장 ~/.local/share/fonts/
+		$ wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+
+	terminal 세팅후 reboot
+	
+	powerlevel10k 테마 적용하기
+	# 저장소에서 테마 복사
+	$ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+	# zsh 설정 파일 수정
+	$ nano ~/.zshrc
+
+		# 파일 내 ZSH_THEME 값 변경
+		# 기본값이 ZSH_THEME="robbyrussell"로 되어 있다
+		ZSH_THEME="powerlevel10k/powerlevel10k"
+		plugins=(zsh-autosuggestions zsh-syntax-highlighting)
+	
+	a) Auto Suggestions
+	• 오른쪽 방향키를 누르면 자동으로 완성된다
+	$ git clone https://github.com/zsh-users/zsh-autosuggestions /etc/oh-my-zsh/custom/plugins/zsh-autosuggestions
+	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions 
+
+	b) Syntax Highlighting
+	• 유효한 명령어, 존재하지 않는 명령어에 따라 색을 다르게 보여준다.
+	$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+	
+	terminal restart
+	
+16. Python 설치
+	$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh
+	$ bash Miniconda3-latest-Linux-aarch64.sh
+	터미널 다시 열기
+	$ conda update -n base conda
+	$ conda update --all
+	$ python -m pip install --upgrade pip
+	$ pip install jupyter  or $ conda install jupyter
+
+17. Pi-Apps Install
+	$ wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bash
+	설치할 프로그램
+	Tools->FF Multi Converter
+	System Management->Disk Usange Analyzer
+	System Management->Synaptic
+	System Management->System Monitoring Center
+	
+20. Sound Change
+	$ sudo apt-get install pulseaudio-utils
+	$ pactl list short sinks
+	$ pactl set-default-sink 'alsa_output.platform-hdmi0-sound.stereo-fallback'
+
+21.rknpu버전
+	sudo cat /sys/kernel/debug/rknpu/version
+	dmesg | grep -i rknpu
+	
+22.DDK 버전
+	journalctl -b |  grep DDK
+	dmesg | grep -i DDK
+	
+23. u boot 버전
+	sudo dpkg-query -l | grep u-boot
+	
+24. mpv설정
+	sudo nano /etc/mpv/mpv.conf
+	hwdec=rkmpp 를 hwdec=vdpau나 hwdec=vaapi로 설정
+	
+	환경설정->일반->비디오 출력드라이버 vdpau
+	환경설정->고급->Mplayer/mpv 옵션에 --config=yes로 설정해야 mpv local 설정이 적용됨
+	
+25. startup sound
+	ExtUSB/Backup/Sounds/Yaru 디렉토리를 .local/share/sounds/에 복사한다.
+	Launch "Startup Applications", and click "Add". Here's what you need to put in Startup Applications' dialog box:
+	Command: /usr/bin/canberra-gtk-play --id="desktop-login" --description="GNOME Login" 
+	Description: Plays a sound at login (or whatever you choose)
+	
+14. nginx install
+	sudo apt update && sudo apt -y upgrade
+	sudo apt install curl gnupg2 ca-certificates lsb-release
+	mainline
+		echo "deb http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
+		| sudo tee /etc/apt/sources.list.d/nginx.list
+	stable
+		echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
+		| sudo tee /etc/apt/sources.list.d/nginx.list
+	curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor > packages.nginx.gpg
+	sudo install -o root -g root -m 644 packages.nginx.gpg /etc/apt/trusted.gpg.d/
+	rm -f packages.nginx.gpg
+	sudo apt update
+	sudo apt list nginx
+	sudo apt install nginx
+	systemctl enable nginx 
+	service nginx start 
+	
+	uninstall 
+	sudo apt-get remove --purge nginx nginx-full nginx-common 
+	
+15. casaOs 설치
+	$ wget -qO- https://get.casaos.io | sudo bash
+	or
+	$ curl -fsSL https://get.casaos.io | sudo bash
+
+	port 변경
+	cd /etc/casaos
+	sudo nano gateway.ini
+	gateway->port = 80을 바꾼다.
+	
+	$ systemctl restart casaos
+	
+	uninstall
+	$ sudo casaos-uninstall
+	
+18. Boot Screen Logo
+	git clone https://github.com/adi1090x/plymouth-themes.git
+	sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/rog_2/rog_2.plymouth 100
+	sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/ubuntu-vision/ubuntu-vision.plymouth 100
+	sudo apt install plymouth-x11
+	sudo update-alternatives --config default.plymouth
+	sudo plymouthd; sudo plymouth --show-splash; sleep 8; sudo plymouth --quit
+	sudo update-initramfs -u
+	
+프로그램 설치에 대해
+	thunar에 관리자 권한 메뉴 추가
+	편집->사용자정의 동작설정
+		이름: 관리자권한으로 열기
+		명령: pkexec thunar %f
+		파일 패턴: *
+		나타낼 조건: 디렉토리, 다른파일 
+	thunar에 Open Terminal Here 메뉴 수정
+	편집->사용자정의 동작설정
+		이름: 터미널 열기
+		명령: gnome-terminal  --working-directory %f
+		파일 패턴: *
+		나타낼 조건: 디렉토리
+		
+	nemo에 관리자권한 메뉴 추가( Backup/Apps Install에 있다)
+		open-as-root.nemo_action 이란 화일을 만든다
+		내용은 아래와 같이한다.
+		[Nemo Action]
+		Active=true
+		Name=관리자권한으로 열기
+		Comment=Extract here
+		Exec=pkexec nemo %F
+		Icon-Name=gnome-mime-application-x-compress
+		Selection=Any
+		Extensions=dir;
+		
+		/usr/share/nemo/actions에 복사한다.
+		sudo cp /home/darkice/ExtUSB/Backup/Apps\ Install/open-as-root.nemo_action /usr/share/nemo/actions
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+1. Gnome Dock에서 마운트 된 드라이브 안보이게 하기
+	gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
+	보이게 하기( 맨뒤의 false를 삭제하고 실행)
+	gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts
+
+2. 컴퓨터 끄기 할때 아래 에서 처리 방법
+	Failed to start casper-md5check Verify Live ISO checksums.
+	$ sudo systemctl disable casper-md5check.service
+
+3. python2 설치
+	cd ~/ExtUSB/Backup/Python
+	wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
+	sudo tar xzf Python-2.7.18.tgz
+	cd ~/ExtUSB/Backup/Python/Python-2.7.18
+	sudo ./configure --enable-optimizations
+	sudo make altinstall
+	
+	python2.7 -V
+	~ Python 2.7.18
+	sudo ln -sfn '/usr/local/bin/python2.7' '/usr/bin/python2'
+	sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+	sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 2
+	
+	sudo update-alternatives --config python
+	* 0            /usr/bin/python3   2         auto mode
+	  1            /usr/bin/python2   1         manual mode
+	  2            /usr/bin/python3   2         manual mode
+
+
+	Press <enter> to keep the current choice[*], or type selection number:
+
+4. MC tar.gz등 압축해제하기
+	sudo wget https://raw.githubusercontent.com/MidnightCommander/mc/master/misc/mc.ext.ini.in -O /etc/mc/mc.ext.ini
+	cp /home/darkice/Backup/mc.ext.ini.in /etc/mc/
+	
+5. icon이 절전에서 재시작할떄 자꾸 변경됨
+	$ nano /home/darkice/set_icon.sh
+	#!/bin/bash
+	gsettings set org.gnome.desktop.interface icon-theme 'WhiteSur-dark'
+
+cat << EOF | tee /home/darkice/set_icon.sh > /dev/null
+#!/bin/bash
+gsettings set org.gnome.desktop.interface icon-theme 'WhiteSur-dark'
+EOF
+
+	$ chmod +x /home/darkice/set_icon.sh
+	
+	$ sudo nano /etc/systemd/system/resume-script.service
+	
+	[Unit]
+	Description=Run script on resume from suspend
+	After=suspend.target
+
+	[Service]
+	Type=oneshot
+	ExecStart=/home/darkice/set_icon.sh
+
+	[Install]
+	WantedBy=suspend.target
+	
+cat << EOF | sudo tee /etc/systemd/system/resume-script.service > /dev/null
+[Unit]
+Description=Run script on resume from suspend
+After=suspend.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/darkice/set_icon.sh
+
+[Install]
+WantedBy=suspend.target
+EOF
+	
+	$ sudo systemctl enable resume-script.service
+	
+6. 디렉토리 비교
+	find /dir1/ -type f -exec md5sum {} + | sort -k 2 > dir1.txt
+	find /dir2/ -type f -exec md5sum {} + | sort -k 2 > dir2.txt
+	diff -u dir1.txt dir2.txt
+	
+7. rkllm 설치시 수정사항
+	rkllm.h
+	#7 #include <cstdint> 추가
+	
+8. Wifi Wide Setting
+	$ nm-connection-editor
+	Select your Wi-Fi connection, then click Edit.
+	Under the Wi-Fi Security tab, ensure that the correct security type (WPA/WPA2, for example) and password are entered.
+	Make sure that the option "Connect automatically" is checked.
+	
+	$ sudo systemctl restart NetworkManager
+	
+	nmcli dev wifi connect "Homeiptime5G" password "@sys3275423"
+	
+	wifi 끄기
+	nmcli radio wifi off
+	
+	wifi 켜기
+	nmcli radio wifi on
+	
+	키링 삭재 및 재설정
+	rm ~/.local/share/keyrings/login.keyring
+	sudo apt remove chromium-browser
+	sudo apt purge chromium-browser
+	sudo apt install chromium-browser
+	
+
+9. Disk Speed Test
+	sudo apt-get install hdparm
+	sudo hdparm -Tt /dev/nvme0n1p2
+
+	read
+	dd if=tempfile of=/dev/null bs=1M count=1024
+	write
+	sync; dd if=/dev/zero of=tempfile bs=1M count=1024; sync
+
+10. nano setting
+	line number view
+	$ nano ~/.nanorc
+		set linenumbers
+
+11. FFMPEG
+	mp4에서 wav 뽑아낸기
+	ffmpeg -i The_Animation_Inyochuu_320.mp4 -vn -f wav The_Animation_Inyochuu_320.wav
+	mp4에서 mp3 뽑아내기
+	ffmpeg -i The_Animation_Inyochuu_320.mp4 -f mp3 -ab 192000 -vn The_Animation_Inyochuu_320.mp3
+	wav를 mp3로 변환
+	ffmpeg -i The_Animation_Inyochuu_320.wav -write_id3v1 1 -id3v2_version 3 -dither_method triangular -out_sample_rate 48k -qscale:a 1 The_Animation_Inyochuu_320.mp3
+	
+	ffmpeg -i The_Animation_Inyochuu_320.mp4 -vn -ar 44100 -ac 2 The_Animation_Inyochuu_320.mp3
+	
+	mp4와 mp3 합치기
+	ffmpeg -i The_Animation_Inyochuu_320.mp4 -i The_Animation_Inyochuu_320.mp3 -c:v copy The_Animation_Inyochuu_960_anime.mp4
+	
+12. git Credential 정보 저장
+	git config credential.helper store
+	전역으로 설정하고 싶다면 --global을 붙여주자
+	git config credential.helper store --global
+	
+	git pull시에 한번만 패스워드를 입력하면 된다.
+	
+13. uart
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart3-m0.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart0-m2.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart6-m1-full.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart1-m1.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart3-m1.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart7-m1-full.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart2-m0.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart8-m0.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart2-m2.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart4-m0.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart8-m0-full.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart4-m2.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart6-m1.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart7-m2.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart7-m1.dtbo
+	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart8-m1.dtbo
+	
+	
+	sudo nano /boot/armbianEnv.txt
+	overlay_prefix=rk3588
+	overlays=uart0-m2 uart1-m1 uart2-m uart2-m2 uart3-m0 uart3-m1 uart4-m0 
+	uart4-m2 uart6-m1-full uart6-m1 uart7-m1-full uart7-m1 uart7-m2 uart8-m0-full uart8-m0 uart8-m1
+
+	아래와 같이 수정한다.
+	overlay_prefix=
+	overlays=rockchip-rk3588-panthor-gpu rk3588-uart3-m1
