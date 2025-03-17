@@ -1,0 +1,485 @@
+1. 시스템 업데이트
+	$ sudo apt-get update
+	$ sudo apt-get upgrade
+	$ sudo apt install u-boot-orangepi-5 livecd-rootfs
+	$ sudo apt install u-boot-orangepi-5-plus livecd-rootfs
+	
+2. 한글 폰트 설치
+	#나눔 글꼴 설치
+	$ sudo apt-get install -y "fonts-nanum*"
+	
+3. Apps Install
+	$ sudo apt-get install geany nemo mc cpufrequtils thunar net-tools dconf-editor dolphin 
+	gsettings set org.gnome.settings-daemon.plugins.housekeeping ignore-paths "['/my/mount/path/to/ignore', '/my/other/mount/path/to/ignore']"
+	$ sudo apt-get install stress btop
+	#소스 비교 프로그램
+	$ sudo apt install kompare meld
+	# SQL Viewer
+	sudo apt install sqlitebrowser
+	# Video Player
+	sudo apt-get install smplayer
+	sudo apt-get install xine-ui -y
+	# Serial Monitor
+	sudo apt-get install cutecom minicom moserial
+	
+	#자막 에디터
+	sudo apt-get -y install subtitleeditor
+
+	thunar에 관리자 권한 메뉴 추가
+	편집->사용자정의 동작설정
+		이름: 관리자권한으로 열기
+		명령: pkexec thunar %f
+		파일 패턴: *
+		나타낼 조건: 디렉토리, 다른파일 
+	thunar에 Open Terminal Here 메뉴 수정
+	편집->사용자정의 동작설정
+		이름: 터미널 열기
+		명령: gnome-terminal  --working-directory %f
+		파일 패턴: *
+		나타낼 조건: 디렉토리
+		
+	nemo에 관리자권한 메뉴 추가( Backup/Apps Install에 있다)
+		open-as-root.nemo_action 이란 화일을 만든다
+		내용은 아래와 같이한다.
+		[Nemo Action]
+		Active=true
+		Name=관리자권한으로 열기
+		Comment=Extract here
+		Exec=pkexec nemo %F
+		Icon-Name=gnome-mime-application-x-compress
+		Selection=Any
+		Extensions=dir;
+		
+		/usr/share/nemo/actions에 복사한다.
+		sudo cp /home/darkice/ExtUSB/Backup/Apps\ Install/open-as-root.nemo_action /usr/share/nemo/actions
+		
+4. 디렉토리 한글로 변환
+	- 한글에서 영문변환 
+	$ export LANG=C $ xdg-user-dirs-gtk-update
+ 
+	- 영문에서 한글로 변환
+	$ echo "C" > ~/.config/user-dirs.locale
+	$ export LANG=ko_KR.utf8; xdg-user-dirs-gtk-update
+
+5. locale 변환
+	sudo apt-get install locales
+	sudo locale-gen en_US.UTF-8
+	sudo locale-gen ko_KR.UTF-8 
+	sudo dpkg-reconfigure locales
+	sudo update-locale LANG=ko_KR.UTF-8 LC_MESSAGES=ko_KR.UTF-8
+	sudo reboot
+	
+6. Mount Ext Drive
+	sudo reboot
+	
+7. CPU속도 빠르게 & OpenGL
+	sudo armbian-config
+	System->CPU
+		CPU freq min 408000 max 2400000 gorvernor preference
+		
+	$ sudo apt-get install cpufrequtils
+	$ sudo nano /etc/default/cpufrequtils
+		ENABLE=true
+		MIN_SPEED=408000
+		MAX_SPEED=2400000
+		GOVERNOR=performance
+
+	$ sudo systemctl restart cpufrequtils
+	
+	$ sudo apt-get install glmark2-es2-wayland
+
+	PAN_MESA_DEBUG=gofaster
+	export PAN_MESA_DEBUG=gofaster
+	
+8. Gnome Extension
+	$ sudo apt-get install gdm3 gnome-tweaks gnome-shell-extension-manager chrome-gnome-shell
+	
+9. 폰트 설치
+	Powerline 글씨체가 아니라서 폰트가 깨지는 것을 확인할 수 있음
+	Meslo LG M Regular for Powerline 글씨체 다운 및 설치
+
+	# clone
+	$ git clone https://github.com/powerline/fonts.git --depth=1
+	# install
+	$ cd fonts
+	$ ./install.sh
+	# clean-up a bit
+	$ cd ..
+	$ rm -rf fonts
+	
+10. ZSH 설치
+	$ sudo apt-get install -y zsh
+	$ chsh -s /usr/bin/zsh
+	$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+	
+	Font 저장 ~/.local/share/fonts/
+		$ wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+
+	terminal 세팅후 reboot
+	
+	powerlevel10k 테마 적용하기
+	# 저장소에서 테마 복사
+	$ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+	# zsh 설정 파일 수정
+	$ nano ~/.zshrc
+
+		# 파일 내 ZSH_THEME 값 변경
+		# 기본값이 ZSH_THEME="robbyrussell"로 되어 있다
+		ZSH_THEME="powerlevel10k/powerlevel10k"
+		plugins=(zsh-autosuggestions zsh-syntax-highlighting)
+	
+	a) Auto Suggestions
+	• 오른쪽 방향키를 누르면 자동으로 완성된다
+	$ git clone https://github.com/zsh-users/zsh-autosuggestions /etc/oh-my-zsh/custom/plugins/zsh-autosuggestions
+	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions 
+
+	b) Syntax Highlighting
+	• 유효한 명령어, 존재하지 않는 명령어에 따라 색을 다르게 보여준다.
+	$ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+	
+	terminal restart
+	
+11. MacOS
+	$ git clone https://github.com/vinceliuice/Mojave-gtk-theme
+	$ cd ~/Downloads/Mojave-gtk-theme
+	위의 화일을 압축을 풀고 $ ./install.sh -t all실행
+	
+	$ git clone https://github.com/vinceliuice/WhiteSur-gtk-theme
+	$ cd ~/Downloads/WhiteSur-gtk-theme
+	위의 화일을 압축을 풀고 $ ./install.sh -t all실행 $ sudo ./tweaks.sh -g실행
+	$ git clone https://github.com/vinceliuice/WhiteSur-icon-theme
+	$ cd ~/ExtUSB/Downloads/WhiteSur-icon-theme
+	$ sudo ./install.sh
+	$ git clone https://github.com/vinceliuice/WhiteSur-cursors
+	$ cd ~/ExtUSB/Downloads/WhiteSur-cursors
+	$ sudo ./install.sh
+	$ git clone https://github.com/vinceliuice/WhiteSur-wallpapers
+	$ cd ~/ExtUSB/Downloads/WhiteSur-wallpapers
+	$ sudo ./install-gnome-backgrounds.sh
+	
+	$ git clone https://github.com/vinceliuice/Orchis-theme.git
+	$ cd ~/Downloads/Orchis-theme
+	$ ./install.sh -t [orange][all]
+	$ ./install.sh -t orange --tweaks macos
+	
+12. App Install
+	# vscode
+	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+	sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+	sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+	
+	rm -f packages.microsoft.gpg
+	sudo apt update
+	sudo apt install code
+	
+	vscode qt.qpa.plugin error 처리
+	sudo nano /etc/gdm3/custom.conf
+	WaylandEnable=true in the /etc/gdm3/custom.conf
+	sudo nano /etc/environment
+	Add QT_QPA_PLATFORM=xcb in /etc/environment
+	
+	#telegram-desktop 설치
+	sudo apt install flatpak
+	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	sudo flatpak install flathub org.telegram.desktop
+	
+	#chromium
+	sudo apt-get install chromium chromium-l10n chromium-shell chromium-driver
+	chromium --gtk-version=4
+	sudo apt-get install winff-qt
+	sudo apt-get install vlc
+	sudo apt-get install xfe
+	
+	# .desktop 만드는 프로그램
+	sudo add-apt-repository ppa:ubuntuhandbook1/arronax
+	sudo apt install arronax arronax-nemo
+	
+	#balenaEtcher v1.7.9 - disk imager
+	$ wget https://github.com/Itai-Nelken/BalenaEtcher-arm/releases/download/v1.7.9/balenaEtcher-1.7.9+5945ab1f-arm64.AppImage
+	$ sudo apt-get install -y zlib1g-dev libfuse2 libfuse2t64
+	
+	#P3x-Onenote
+	$ wget https://github.com/patrikx3/onenote/releases/download/v2024.10.117/P3X-OneNote-2024.10.117-arm64.AppImage
+	
+	#audacity - audio editor
+	sudo add-apt-repository ppa:ubuntuhandbook1/audacity
+	sudo apt install audacity
+	
+	#Pulsar - markdown editor
+	https://github.com/pulsar-edit/pulsar
+	$ wget https://github.com/pulsar-edit/pulsar/releases/download/v1.123.0/ARM.Linux.Pulsar-1.123.0-arm64.AppImage
+	$ sudo apt-get install -y zlib1g-dev libfuse2 libfuse2t64
+	
+	#SimpleNote
+	$ wget https://github.com/Automattic/simplenote-electron/releases/download/v2.23.0/Simplenote-linux-2.23.0-arm64.AppImage
+	
+
+14. nginx install
+	sudo apt update && sudo apt -y upgrade
+	sudo apt install curl gnupg2 ca-certificates lsb-release
+	mainline
+		echo "deb http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
+		| sudo tee /etc/apt/sources.list.d/nginx.list
+	stable
+		echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
+		| sudo tee /etc/apt/sources.list.d/nginx.list
+	curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor > packages.nginx.gpg
+	sudo install -o root -g root -m 644 packages.nginx.gpg /etc/apt/trusted.gpg.d/
+	rm -f packages.nginx.gpg
+	sudo apt update
+	sudo apt list nginx
+	sudo apt install nginx
+	systemctl enable nginx 
+	service nginx start 
+	
+	uninstall 
+	sudo apt-get remove --purge nginx nginx-full nginx-common 
+	
+15. casaOs 설치
+	$ wget -qO- https://get.casaos.io | sudo bash
+	or
+	$ curl -fsSL https://get.casaos.io | sudo bash
+
+	port 변경
+	cd /etc/casaos
+	sudo nano gateway.ini
+	gateway->port = 80을 바꾼다.
+	
+	$ systemctl restart casaos
+	
+	uninstall
+	$ sudo casaos-uninstall
+	
+	sdcard volume 추가
+	모든 저장장치는 fstab에 등록이 되어야 jellyfin에서 사용할수 있다.
+	UUID=01D9B4F0A6047140   /mnt/sdcard     ntfs    0       2
+	jellyfin에서 볼륨추가
+	/mnt/sdcard /Video
+
+16. Python 설치
+	$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh
+	$ bash Miniconda3-latest-Linux-aarch64.sh
+	터미널 다시 열기
+	$ conda update -n base conda
+	$ conda update --all
+	$ python -m pip install --upgrade pip
+	$ pip install jupyter  or $ conda install jupyter
+
+17. Pi-Apps Install
+	$ wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bash
+	설치할 프로그램
+	Tools->FF Multi Converter
+	System Management->Disk Usange Analyzer
+	System Management->Synaptic
+	System Management->System Monitoring Center
+
+18. Boot Screen Logo
+	git clone https://github.com/adi1090x/plymouth-themes.git
+	sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/rog_2/rog_2.plymouth 100
+	sudo apt install plymouth-x11
+	sudo plymouthd; sudo plymouth --show-splash; sleep 8; sudo plymouth --quit
+	sudo update-alternatives --config default.plymouth
+	sudo update-initramfs -u
+
+19. Conky
+	$ sudo apt-get install build-essential git valac libgee-0.8-dev libgtk-3-dev libjson-glib-dev gettext libgettextpo-dev p7zip-full imagemagick
+	$ sudo apt install conky-all
+	$ git clone https://github.com/zcot/conky-manager2.git
+	$ make
+	$ sudo make install
+	
+20. Sound Change
+	$ sudo apt-get install pulseaudio-utils
+	$ pactl list short sinks
+	#헤드셋
+	$ pactl set-default-sink 'alsa_output.platform-es8388-sound.stereo-fallback'
+	#HDIM0
+	$ pactl set-default-sink 'alsa_output.platform-hdmi0-sound.stereo-fallback'
+
+21.rknpu버전
+	sudo cat /sys/kernel/debug/rknpu/version
+	dmesg | grep -i rknpu
+	
+22.DDK 버전
+	journalctl -b |  grep DDK
+	dmesg | grep -i DDK
+	
+23. u boot 버전
+	sudo dpkg-query -l | grep u-boot
+	
+24. mpv설정
+	sudo nano /etc/mpv/mpv.conf
+	hwdec=rkmpp 를 hwdec=vdpau나 hwdec=vaapi로 설정
+	
+	환경설정->일반->비디오 출력드라이버 vdpau
+	환경설정->고급->Mplayer/mpv 옵션에 --config=yes로 설정해야 mpv local 설정이 적용됨
+	
+25. startup sound
+	Launch "Startup Applications", and click "Add". Here's what you need to put in Startup Applications' dialog box:
+	Command: /usr/bin/canberra-gtk-play --id="desktop-login" --description="GNOME Login" 
+	Description: Plays a sound at login (or whatever you choose)
+	
+26. socat #가상 시리얼 포트 serial
+	$ sudo apt install socat
+	$ socat -d -d pty,raw,echo=0 pty,raw,echo=0 
+	
+	sudo nano /etc/default/u-boot
+	아래 문구 추가
+	Orange Pi 5 Plus
+	U_BOOT_FDT_OVERLAYS="rk3588-uart1-m1.dtbo rk3588-uart3-m1.dtbo rk3588-uart4-m2.dtbo rk3588-uart6-m1.dtbo rk3588-uart7-m2.dtbo rk3588-uart8-m1.dtbo"
+	U_BOOT_FDT_OVERLAYS_DIR="/lib/firmware/6.1.0-1027-rockchip/device-tree/rockchip/overlay/"
+	
+	$ sudo u-boot-update
+	
+	그룹설정할것.
+	$ sudo usermod -a -G dialout $USER
+	
+	# Serial Monitor
+	sudo apt-get install cutecom minicom moserial
+	
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+1. Gnome Dock에서 마운트 된 드라이브 안보이게 하기
+	gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
+	보이게 하기( 맨뒤의 false를 삭제하고 실행)
+	gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts
+
+2. 컴퓨터 끄기 할때 아래 에서 처리 방법
+	Failed to start casper-md5check Verify Live ISO checksums.
+	$ sudo systemctl disable casper-md5check.service
+
+3. python2 설치
+	cd ~/ExtUSB/Backup/Python
+	wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
+	sudo tar xzf Python-2.7.18.tgz
+	cd ~/ExtUSB/Backup/Python/Python-2.7.18
+	sudo ./configure --enable-optimizations
+	sudo make altinstall
+	
+	python2.7 -V
+	~ Python 2.7.18
+	sudo ln -sfn '/usr/local/bin/python2.7' '/usr/bin/python2'
+	sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+	sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 2
+	
+	sudo update-alternatives --config python
+	* 0            /usr/bin/python3   2         auto mode
+	  1            /usr/bin/python2   1         manual mode
+	  2            /usr/bin/python3   2         manual mode
+
+
+	Press <enter> to keep the current choice[*], or type selection number:
+
+4. MC tar.gz등 압축해제하기
+	sudo wget https://raw.githubusercontent.com/MidnightCommander/mc/master/misc/mc.ext.ini.in -O /etc/mc/mc.ext.ini
+	cp /home/darkice/Backup/mc.ext.ini.in /etc/mc/
+	
+5. icon이 절전에서 재시작할떄 자꾸 변경됨
+	$ nano /home/darkice/set_icon.sh
+	#!/bin/bash
+	gsettings set org.gnome.desktop.interface icon-theme 'WhiteSur-dark'
+
+cat << EOF | tee /home/darkice/set_icon.sh > /dev/null
+#!/bin/bash
+gsettings set org.gnome.desktop.interface icon-theme 'WhiteSur-dark'
+EOF
+
+	$ chmod +x /home/darkice/set_icon.sh
+	
+	$ sudo nano /etc/systemd/system/resume-script.service
+	
+	[Unit]
+	Description=Run script on resume from suspend
+	After=suspend.target
+
+	[Service]
+	Type=oneshot
+	ExecStart=/home/darkice/set_icon.sh
+
+	[Install]
+	WantedBy=suspend.target
+	
+cat << EOF | sudo tee /etc/systemd/system/resume-script.service > /dev/null
+[Unit]
+Description=Run script on resume from suspend
+After=suspend.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/darkice/set_icon.sh
+
+[Install]
+WantedBy=suspend.target
+EOF
+	
+	$ sudo systemctl enable resume-script.service
+	
+6. 디렉토리 비교
+	find /dir1/ -type f -exec md5sum {} + | sort -k 2 > dir1.txt
+	find /dir2/ -type f -exec md5sum {} + | sort -k 2 > dir2.txt
+	diff -u dir1.txt dir2.txt
+	
+7. rkllm 설치시 수정사항
+	rkllm.h
+	#7 #include <cstdint> 추가
+	
+8. Wifi Wide Setting
+	$ nm-connection-editor
+	Select your Wi-Fi connection, then click Edit.
+	Under the Wi-Fi Security tab, ensure that the correct security type (WPA/WPA2, for example) and password are entered.
+	Make sure that the option "Connect automatically" is checked.
+	
+	$ sudo systemctl restart NetworkManager
+	
+	nmcli dev wifi connect "Homeiptime5G" password "@sys3275423"
+	
+	wifi 끄기
+	nmcli radio wifi off
+	
+	wifi 켜기
+	nmcli radio wifi on
+	
+	키링 삭재 및 재설정
+	rm ~/.local/share/keyrings/login.keyring
+	sudo apt remove chromium-browser
+	sudo apt purge chromium-browser
+	sudo apt install chromium-browser
+	
+
+9. Disk Speed Test
+	sudo apt-get install hdparm
+	sudo hdparm -Tt /dev/nvme0n1p2
+
+	read
+	dd if=tempfile of=/dev/null bs=1M count=1024
+	write
+	sync; dd if=/dev/zero of=tempfile bs=1M count=1024; sync
+
+10. nano setting
+	line number view
+	$ nano ~/.nanorc
+		set linenumbers
+
+11. FFMPEG
+	mp4에서 wav 뽑아낸기
+	ffmpeg -i The_Animation_Inyochuu_320.mp4 -vn -f wav The_Animation_Inyochuu_320.wav
+	mp4에서 mp3 뽑아내기
+	ffmpeg -i The_Animation_Inyochuu_320.mp4 -f mp3 -ab 192000 -vn The_Animation_Inyochuu_320.mp3
+	wav를 mp3로 변환
+	ffmpeg -i The_Animation_Inyochuu_320.wav -write_id3v1 1 -id3v2_version 3 -dither_method triangular -out_sample_rate 48k -qscale:a 1 The_Animation_Inyochuu_320.mp3
+	
+	ffmpeg -i The_Animation_Inyochuu_320.mp4 -vn -ar 44100 -ac 2 The_Animation_Inyochuu_320.mp3
+	
+	mp4와 mp3 합치기
+	ffmpeg -i The_Animation_Inyochuu_320.mp4 -i The_Animation_Inyochuu_320.mp3 -c:v copy The_Animation_Inyochuu_960_anime.mp4
+	
+	mp4 용량 줄이기
+	ffmpeg -i hhd800.com@STARS-776.mp4 -sn -c:v libx264 -preset medium -crf 23 -tune film -sws_flags lanczos -filter:v "scale=-1:1080" -c:a aac -b:a 192k -ac 2 outfile.mkv
+	
+12. git Credential 정보 저장
+	git config credential.helper store
+	전역으로 설정하고 싶다면 --global을 붙여주자
+	git config credential.helper store --global
+	
+	git pull시에 한번만 패스워드를 입력하면 된다.
+	
