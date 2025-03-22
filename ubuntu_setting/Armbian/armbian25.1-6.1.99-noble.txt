@@ -390,6 +390,9 @@ EOF
 	mp4와 mp3 합치기
 	ffmpeg -i The_Animation_Inyochuu_320.mp4 -i The_Animation_Inyochuu_320.mp3 -c:v copy The_Animation_Inyochuu_960_anime.mp4
 	
+	mp4 용량 줄이기
+	ffmpeg -i hhd800.com@STARS-776.mp4 -sn -c:v libx264 -preset medium -crf 23 -tune film -sws_flags lanczos -filter:v "scale=-1:1080" -c:a aac -b:a 192k -ac 2 outfile.mkv
+	
 12. git Credential 정보 저장
 	git config credential.helper store
 	전역으로 설정하고 싶다면 --global을 붙여주자
