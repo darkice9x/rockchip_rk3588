@@ -1,4 +1,23 @@
 #!/bin/bash
+echo "Init Desktop"
+sudo apt-get update
+sudo apt -y purge chromium
+sudo apt-get upgrade -y
+
+sudo apt -y install ubuntu-desktop dbus-x11 xterm pulseaudio pavucontrol qtwayland5 \
+gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good mpv \
+gstreamer1.0-tools dvb-tools ir-keytable libdvbv5-0 libdvbv5-dev libdvbv5-doc libv4l-0 \
+libv4l2rds0 libv4lconvert0 libv4l-dev qv4l2 v4l-utils libegl-mesa0 libegl1-mesa-dev \
+libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglx-mesa0 mesa-common-dev mesa-vulkan-drivers \
+mesa-utils libcanberra-pulse oem-config-gtk ubiquity-frontend-gtk ubiquity-slideshow-ubuntu \
+gnome-startup-applications gnome-remote-desktop language-selector-gnome \
+im-config cinnamon-l10n
+
+echo "Sound System"
+sudo apt -y install pipewire-alsa
+systemctl --user enable pipewire
+systemctl --user start pipewire
+
 echo "Processing 'lib install'"
 sudo apt install -y build-essential cmake git pkg-config libgtk-3-dev libavcodec-dev libavformat-dev  \
 libv4l-dev libxvidcore-dev libx264-dev libjpeg-dev libpng-dev libtiff-dev gfortran openexr libatlas-base-dev \
