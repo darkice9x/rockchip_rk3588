@@ -54,11 +54,6 @@ sudo ln -sf /usr/lib/aarch64-linux-gnu/dri /usr/lib/dri
 sudo apt install -y geany nemo mc cpufrequtils thunar net-tools dconf-editor smplayer inxi plocate
 sudo apt install -y gdm3 gnome-tweaks gnome-shell-extension-manager chrome-gnome-shell
 
-#영문에서 한글로 변환
-echo "C" > ~/.config/user-dirs.locale
-export LANG=ko_KR.utf8
-xdg-user-dirs-gtk-update
-
 #/etc/default/cpufrequtils 파일에 내용 작성
 cat << EOF | sudo tee /etc/default/cpufrequtils > /dev/null
 ENABLE=true
@@ -71,11 +66,11 @@ sudo systemctl restart cpufrequtils
 echo "/etc/default/cpufrequtils 파일이 성공적으로 업데이트되었습니다."
 
 #gnome tweak and background
-cd ~/ExtUSB/Downloads/WhiteSur-icon-theme
+cd /home/darkice/ExtUSB/Downloads/WhiteSur-icon-theme
 sudo ./install.sh
-cd ~/ExtUSB/Downloads/WhiteSur-cursors
+cd /home/darkice/ExtUSB/Downloads/WhiteSur-cursors
 sudo ./install.sh
-cd ~/ExtUSB/Downloads/WhiteSur-wallpapers
+cd /home/darkice/ExtUSB/Downloads/WhiteSur-wallpapers
 sudo ./install-gnome-backgrounds.sh
 
 if [[ -d /usr/share/backgrounds/Dynamic_Wallpapers ]]
@@ -90,6 +85,20 @@ sudo mkdir -p /usr/share/gnome-background-properties/
 sudo cp -r /home/darkice/ExtUSB/Backup/Wallpaper/Linux_Dynamic_Wallpapers/Dynamic_Wallpapers /usr/share/backgrounds/Dynamic_Wallpapers
 sudo cp /home/darkice/ExtUSB/Backup/Wallpaper/Linux_Dynamic_Wallpapers/xml/* /usr/share/gnome-background-properties/
 echo "Wallpapers has been installed. Enjoy setting them as your desktop background!"
+
+#sudo apt update && sudo apt -y upgrade
+sudo apt -y install curl gnupg2 ca-certificates lsb-release
+echo "deb http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
+		| sudo tee /etc/apt/sources.list.d/nginx.list
+curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor > packages.nginx.gpg
+sudo install -o root -g root -m 644 packages.nginx.gpg /etc/apt/trusted.gpg.d/
+rm -f packages.nginx.gpg
+sudo apt update
+sudo apt -y install nginx
+systemctl enable nginx 
+service nginx start 
+
+curl -fsSL https://get.casaos.io | sudo bash
 
 #pi-app install
 wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bash
