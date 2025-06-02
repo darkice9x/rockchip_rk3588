@@ -21,10 +21,18 @@ libpython3-dev dctrl-tools libelf-dev dwarves clinfo ocl-icd-opencl-dev mesa-ope
 byacc flex libwayland-egl-backend-dev libx11-xcb-dev libxshmfence-dev libportaudio-ocaml-dev
 sudo apt install -y g++ libxml2-dev libavdevice-dev libsdl2-dev '^libxcb.*-dev' libxkbcommon-x11-dev
 sudo apt install -y valac libgee-0.8-dev libjson-glib-dev libgettextpo-dev p7zip-full pulseaudio-utils
-sudo apt install -y nodejs npm
+sudo apt install -y nodejs npm dnsutils
+sudo apt-get -y install autoconf automake pkg-config libnl-3-dev libnl-genl-3-dev libssl-dev ethtool \
+shtool rfkill zlib1g-dev libpcap-dev libsqlite3-dev libpcre2-dev libhwloc-dev libcmocka-dev hostapd \
+wpasupplicant tcpdump screen iw usbutils expect
+#case "/usr/bin/ld: cannot find -lstdc++: No such file or directory" 
+#ubuntu 24.04 gcc 13 , clang version 18 
+sudo apt install -y libstdc++-14-dev
+#vulkan
+sudo apt install -y vulkan-tools
 sudo ln -sf /usr/lib/aarch64-linux-gnu/dri /usr/lib/dri
 
-sudo apt install -y geany nemo mc cpufrequtils thunar net-tools dconf-editor smplayer
+sudo apt install -y geany nemo mc cpufrequtils thunar net-tools dconf-editor smplayer inxi plocate
 sudo apt install -y gdm3 gnome-tweaks gnome-shell-extension-manager chrome-gnome-shell
 
 #영문에서 한글로 변환
