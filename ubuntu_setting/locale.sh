@@ -20,3 +20,7 @@ cat << EOF | sudo tee /etc/gdm3/custom.conf > /dev/null
 EOF
 
 sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
+
+#docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.36.2/docker-compose-linux-aarch64" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
