@@ -73,6 +73,7 @@ fi
 
 # 백업된 .p10k.zsh 복원
 cp ./backup-p10k.zsh ~/.p10k.zsh
+echo '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh' >> "$ZSHRC"
 
 # 기본 쉘을 zsh로 변경
 if [ "$SHELL" != "$(which zsh)" ]; then
