@@ -98,7 +98,5 @@ sudo apt -y install nginx
 systemctl enable nginx 
 service nginx start 
 
-curl -fsSL https://get.casaos.io | sudo bash
-
 #pi-app install
 wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bash
