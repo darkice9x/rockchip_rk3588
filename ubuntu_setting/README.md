@@ -50,19 +50,19 @@ sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
 
 외장 HDD를 Disk유틸리티로 마운트해준다( ex /home/darkice/ExtUSB )
 
-다시 리부팅한다.
+다시 리부팅한다. 다음 실행
 
 ```shell
 bash 01.init_install.sh
 ```
 
-언어 설정한다. 다시 리부팅한다.
+언어 설정한다. 다시 리부팅한다. 다음 실행
 
 ```shell
 bash locale.sh
 ```
 
-리부팅한다.
+리부팅한다. 다음 실행
 
 ```shell
 ZSH 설치
