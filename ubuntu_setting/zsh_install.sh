@@ -38,19 +38,6 @@ if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 fi
 
-# .zshrc 설정 변경
-ZSHRC="$HOME/.zshrc"
-
-# 테마 변경
-sed -i 's/^ZSH_THEME=.*/ZSH_THEME="powerlevel10k\/powerlevel10k"/' "$ZSHRC"
-
-# 플러그인 라인 변경
-if grep -q '^plugins=(' "$ZSHRC"; then
-    sed -i 's/^plugins=(.*)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' "$ZSHRC"
-else
-    echo 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting)' >> "$ZSHRC"
-fi
-
 # MesloLGS NF Regular 폰트 설치
 FONT_DIR="$HOME/.local/share/fonts"
 mkdir -p "$FONT_DIR"
@@ -64,7 +51,27 @@ if [ ! -f "$FONT_PATH" ]; then
     fc-cache -f "$FONT_DIR"
 fi
 
-# zsh를 기본 쉘로 설정
+# .zshrc 수정
+ZSHRC="$HOME/.zshrc"
+
+# export ZSH 라인 수정
+if grep -q '^export ZSH=' "$ZSHRC"; then
+    sed -i 's|^export ZSH=.*|export ZSH="$HOME/.oh-my-zsh"|' "$ZSHRC"
+else
+    echo 'export ZSH="$HOME/.oh-my-zsh"' >> "$ZSHRC"
+fi
+
+# 테마 변경
+sed -i 's/^ZSH_THEME=.*/ZSH_THEME="powerlevel10k\/powerlevel10k"/' "$ZSHRC"
+
+# plugins 설정 변경
+if grep -q '^plugins=(' "$ZSHRC"; then
+    sed -i 's/^plugins=(.*)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' "$ZSHRC"
+else
+    echo 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting)' >> "$ZSHRC"
+fi
+
+# 기본 쉘을 zsh로 변경
 if [ "$SHELL" != "$(which zsh)" ]; then
     echo "🛠️ 기본 쉘을 zsh로 변경 중..."
     chsh -s "$(which zsh)"
@@ -74,4 +81,4 @@ echo ""
 echo "✅ 설치 완료!"
 echo "1️⃣ 터미널을 재시작하거나 'zsh' 입력"
 echo "2️⃣ Powerlevel10k 설정 마법사 실행"
-echo "3️⃣ 터미널에서 폰트 설정을 'MesloLGS NF Regular'로 변경하세요 (필수!)"
+echo "3️⃣ 터미널 폰트를 'MesloLGS NF Regular'로 설정하세요 (필수!)"
