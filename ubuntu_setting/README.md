@@ -2,10 +2,7 @@
 
 ## 1. 설명
 
-The model used in this example comes from the following open source projects:  
-
-https://github.com/airockchip/ultralytics_yolo11
-
+Armbian Ubuntu Noble image를 설치하고 설정하는 방법을 아래에 나열한다.
 
 
 ## 2. 지원환경
