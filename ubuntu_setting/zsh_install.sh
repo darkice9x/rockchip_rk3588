@@ -71,6 +71,9 @@ else
     echo 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting)' >> "$ZSHRC"
 fi
 
+# 백업된 .p10k.zsh 복원
+cp ./backup-p10k.zsh ~/.p10k.zsh
+
 # 기본 쉘을 zsh로 변경
 if [ "$SHELL" != "$(which zsh)" ]; then
     echo "🛠️ 기본 쉘을 zsh로 변경 중..."
