@@ -66,11 +66,11 @@ sudo systemctl restart cpufrequtils
 echo "/etc/default/cpufrequtils 파일이 성공적으로 업데이트되었습니다."
 
 #gnome tweak and background
-cd /home/darkice/ExtUSB/Downloads/WhiteSur-icon-theme
+cd ~/ExtUSB/Downloads/WhiteSur-icon-theme
 sudo ./install.sh
-cd /home/darkice/ExtUSB/Downloads/WhiteSur-cursors
+cd ~/ExtUSB/Downloads/WhiteSur-cursors
 sudo ./install.sh
-cd /home/darkice/ExtUSB/Downloads/WhiteSur-wallpapers
+cd ~/ExtUSB/Downloads/WhiteSur-wallpapers
 sudo ./install-gnome-backgrounds.sh
 
 if [[ -d /usr/share/backgrounds/Dynamic_Wallpapers ]]
@@ -82,8 +82,8 @@ fi
 echo "Installing wallpapers..."
 sudo mkdir -p /usr/share/backgrounds/
 sudo mkdir -p /usr/share/gnome-background-properties/ 
-sudo cp -r /home/darkice/ExtUSB/Backup/Wallpaper/Linux_Dynamic_Wallpapers/Dynamic_Wallpapers /usr/share/backgrounds/Dynamic_Wallpapers
-sudo cp /home/darkice/ExtUSB/Backup/Wallpaper/Linux_Dynamic_Wallpapers/xml/* /usr/share/gnome-background-properties/
+sudo cp -r ~/ExtUSB/Backup/Wallpaper/Linux_Dynamic_Wallpapers/Dynamic_Wallpapers /usr/share/backgrounds/Dynamic_Wallpapers
+sudo cp ~/ExtUSB/Backup/Wallpaper/Linux_Dynamic_Wallpapers/xml/* /usr/share/gnome-background-properties/
 echo "Wallpapers has been installed. Enjoy setting them as your desktop background!"
 
 #sudo apt update && sudo apt -y upgrade
