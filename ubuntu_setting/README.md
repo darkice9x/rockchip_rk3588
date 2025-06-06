@@ -49,24 +49,7 @@ sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
 
 다시 리부팅한다. 
 
-## 6. 스크립트 실행전 설정 사항
-
-스크립트에서는 기본 환경과 그놈 기능개선 프로그램에서 사용할 커서, 아이콘, 배경화면 등이 필요하므로 아래와 같이 실행한다.
-
-```shell
-cd ~/ExtUSB
-mkdir Downloads
-cd Downloads
-git clone https://github.com/vinceliuice/WhiteSur-gtk-theme
-git clone https://github.com/vinceliuice/WhiteSur-icon-theme
-git clone https://github.com/vinceliuice/WhiteSur-cursors
-git clone https://github.com/vinceliuice/WhiteSur-wallpapers
-mkdir ~/ExtUSB/Backup/Wallpaper
-cd -p ~/ExtUSB/Backup/Wallpaper
-git clone https://github.com/saint-13/Linux_Dynamic_Wallpapers.git
-```
-
-## 7. 스크립트 실행
+## 6. 스크립트 실행
 
 ```shell
 bash 01.init_install.sh
