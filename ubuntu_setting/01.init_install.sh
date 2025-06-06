@@ -66,6 +66,27 @@ sudo systemctl restart cpufrequtils
 echo "/etc/default/cpufrequtils 파일이 성공적으로 업데이트되었습니다."
 
 #gnome tweak and background
+mkdir -p ~/ExtUSB/Downloads
+
+if [ ! -d "~/ExtUSB/Downloads/WhiteSur-icon-theme" ]; then
+	cd ~/ExtUSB/Downloads
+    git clone https://github.com/vinceliuice/WhiteSur-icon-theme
+else
+    echo "디렉토리가 이미 존재합니다. git clone을 건너뜁니다."
+fi
+if [ ! -d "~/ExtUSB/Downloads/WhiteSur-cursors" ]; then
+	cd ~/ExtUSB/Downloads
+    git clone https://github.com/vinceliuice/WhiteSur-cursors
+else
+    echo "디렉토리가 이미 존재합니다. git clone을 건너뜁니다."
+fi
+if [ ! -d "~/ExtUSB/Downloads/WhiteSur-wallpapers" ]; then
+	cd ~/ExtUSB/Downloads
+    git clone https://github.com/vinceliuice/WhiteSur-wallpapers
+else
+    echo "디렉토리가 이미 존재합니다. git clone을 건너뜁니다."
+fi
+
 cd ~/ExtUSB/Downloads/WhiteSur-icon-theme
 sudo ./install.sh
 cd ~/ExtUSB/Downloads/WhiteSur-cursors
@@ -80,6 +101,14 @@ then
 fi
 
 echo "Installing wallpapers..."
+if [ ! -d "~/ExtUSB/Backup/Wallpaper/Linux_Dynamic_Wallpapers" ]; then
+	mkdir -p ~/ExtUSB/Backup/Wallpaper
+	cd ~/ExtUSB/Backup/Wallpaper
+    git clone https://github.com/saint-13/Linux_Dynamic_Wallpapers.git
+else
+    echo "디렉토리가 이미 존재합니다. git clone을 건너뜁니다."
+fi
+
 sudo mkdir -p /usr/share/backgrounds/
 sudo mkdir -p /usr/share/gnome-background-properties/ 
 sudo cp -r ~/ExtUSB/Backup/Wallpaper/Linux_Dynamic_Wallpapers/Dynamic_Wallpapers /usr/share/backgrounds/Dynamic_Wallpapers
