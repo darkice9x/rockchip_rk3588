@@ -51,6 +51,8 @@ sudo apt install -y libstdc++-14-dev
 sudo apt install -y vulkan-tools
 sudo ln -sf /usr/lib/aarch64-linux-gnu/dri /usr/lib/dri
 
+sudo apt install -y libsndfile1-dev
+
 sudo apt install -y geany nemo mc cpufrequtils thunar net-tools dconf-editor smplayer inxi plocate kdiskmark evince
 sudo apt install -y gdm3 gnome-tweaks gnome-shell-extension-manager chrome-gnome-shell
 
