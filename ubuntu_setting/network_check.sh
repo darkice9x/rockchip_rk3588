@@ -6,6 +6,7 @@ cat << 'EOF' | sudo tee /usr/local/bin/check_nmcli_connectivity.sh > /dev/null
 STATE=$(nmcli networking connectivity)
 if [ "$STATE" != "full" ]; then
     echo "[!] 인터넷 연결 상태 아님 ($STATE). NetworkManager 재시작 중..."
+    nmcli radio wifi on
     systemctl restart NetworkManager
 else
     echo "[✓] 인터넷 연결 정상 ($STATE)"
