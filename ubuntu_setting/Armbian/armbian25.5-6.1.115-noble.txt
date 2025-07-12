@@ -1,4 +1,6 @@
 
+xz -dc Armbian_25.5.1_Orangepi5-plus_noble_vendor_6.1.115_gnome_desktop.img.xz | sudo dd of=/dev/mmcblk1 bs=4M status=progress conv=fsync
+
 1. image를 만든후에 sdcard의 /boot/armbianEnv.txt에 아래 추가후 부팅.
 	$ sudo nano /boot/armbianEnv.txt
 	#Add
@@ -527,3 +529,14 @@ EOF
 	$ cd ~/Downloads/Orchis-theme
 	$ ./install.sh -t [orange][all]
 	$ ./install.sh -t orange --tweaks macos
+
+18. 내트워크 물음표 표시된경우
+	sudo systemctl restart NetworkManager
+	
+	/home/darkice/ExtUSB/rockchip_rk3588/ubuntu_setting/network_check.sh 실행
+타이머 확인:
+systemctl list-timers | grep nmcli
+동작 로그 확인:
+journalctl -u check-nmcli-connectivity.service --no-pager
+강제로 테스트 (Wi-Fi 끊고 실행):
+sudo /usr/local/bin/check_nmcli_connectivity.sh
