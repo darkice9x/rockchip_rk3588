@@ -1,6 +1,8 @@
 
+xz -dc Armbian_25.2.1_Orangepi5-plus_noble_vendor_6.1.99_gnome_desktop.img.xz | sudo dd of=/dev/mmcblk1 bs=4M status=progress conv=fsync
+
 1. image를 만든후에 sdcard의 /boot/armbianEnv.txt에 아래 추가후 부팅.
-	$ sudo nano /boot/armbianEnv.txt
+	$ sudo nano ./boot/armbianEnv.txt
 	#Add
 	extraargs=video=HDMI-A-1:1920x1080@60 
 	
@@ -13,10 +15,10 @@
 
 2. Package 정리
 	$ sudo apt-get update
-	$ sudo apt purge chromium
+	$ sudo apt -y purge chromium
 	$ sudo apt-get upgrade
 	# 25.2.3 kernel 6.1.99
-	$ sudo apt-get install geany nemo cpufrequtils net-tools smplayer inxi
+	$ sudo apt -y install geany nemo cpufrequtils net-tools smplayer inxi plocate kdiskmark evince
 	$ sudo apt -y install ubuntu-desktop dbus-x11 xterm pulseaudio pavucontrol qtwayland5 \
 	gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good mpv \
 	gstreamer1.0-tools dvb-tools ir-keytable libdvbv5-0 libdvbv5-dev libdvbv5-doc libv4l-0 \
@@ -26,7 +28,7 @@
 	gnome-startup-applications gnome-remote-desktop language-selector-gnome \
 	im-config cinnamon-l10n
 
-	$ sudo apt install pipewire-alsa
+	$ sudo apt -y install pipewire-alsa
 	$ systemctl --user enable pipewire
 	$ systemctl --user start pipewire
 
@@ -40,10 +42,22 @@
 	- 영문에서 한글로 변환
 	$ echo "C" > ~/.config/user-dirs.locale
 	$ export LANG=ko_KR.utf8; xdg-user-dirs-gtk-update
+
+5. 로그인 스크린에서 한글 로케일 설정
+	$ sudo locale-gen ko_KR.UTF-8
+	$ sudo dpkg-reconfigure locales
+	$ sudo -u gdm dbus-launch gsettings set org.gnome.system.locale region 'ko_KR.UTF-8'
+	$ sudo update-locale LANG=ko_KR.UTF-8 LC_ALL=ko_KR.UTF-8
+	
+6. Disable autologin on Gnome
+	$ sudo nano /etc/gdm3/custom.conf
+	[daemon]
+	AutomaticLoginEnable = false
+	AutomaticLogin = darkice
 	
 	sudo reboot
-
-5. CPU속도 빠르게 & OpenGL
+	
+7. CPU속도 빠르게 & OpenGL
 	$ sudo armbian-config
 	System->CPU
 		CPU freq min 408000 max 2400000 gorvernor preference
@@ -58,42 +72,33 @@
 	$ sudo systemctl disable ondemand
 	$ sudo systemctl restart cpufrequtils
 	
-6. Sound Change
+	export PAN_MESA_DEBUG=gofaster,gl3
+	
+	sudo cp /home/darkice/ExtUSB/Apps/Geekbench-6.4.0-LinuxARMPreview/fix_freq_rk3588.sh /usr/local/bin/
+	sudo cp /home/darkice/ExtUSB/Apps/Geekbench-6.4.0-LinuxARMPreview/fixfreq.service /etc/systemd/system/
+	sudo systemctl daemon-reload
+	sudo systemctl enable fixfreq.service
+	sudo systemctl restart fixfreq.service
+	
+8. Sound Change
 	$ sudo apt-get install pulseaudio-utils
 	$ pactl list short sinks
 	$ pactl set-default-sink 'alsa_output.platform-hdmi0-sound.stereo-fallback'
 
-7. 기본 터미널 선택
+9. 기본 터미널 선택
 	$ sudo update-alternatives --config x-terminal-emulator
-	
-8. 로그인 스크린에서 한글 로케일 설정
-	$ sudo locale-gen ko_KR.UTF-8
-	$ sudo dpkg-reconfigure locales
-	$ sudo -u gdm dbus-launch gsettings set org.gnome.system.locale region 'ko_KR.UTF-8'
-	$ sudo update-locale LANG=ko_KR.UTF-8 LC_ALL=ko_KR.UTF-8
-
-9. Disable autologin on Gnome
-	$ sudo nano /etc/gdm3/custom.conf
-	[daemon]
-	AutomaticLoginEnable = false
-	AutomaticLogin = darkice
 
 10. Kernel Update and Upgrade Disable
 	armbian-firmware
 	linux-headers-vendor-rk35xx
 	linux-dtb-vendor-rk35xx
 	linux-image-vendor-rk35xx
-	$ sudo apt download armbian-firmware linux-headers-vendor-rk35xx linux-dtb-vendor-rk35xx linux-image-vendor-rk35xx
-	$ sudo apt-mark hold armbian-firmware linux-headers-vendor-rk35xx linux-dtb-vendor-rk35xx linux-image-vendor-rk35xx
+	armbian-bsp-cli-orangepi5-plus-vendor
+	linux-u-boot-orangepi5-plus-vendor
+	$ apt download linux-headers-vendor-rk35xx linux-dtb-vendor-rk35xx linux-image-vendor-rk35xx 
+	$ sudo apt-mark hold linux-headers-vendor-rk35xx linux-dtb-vendor-rk35xx linux-image-vendor-rk35xx
 
-11. Conky
-	$ sudo apt-get install build-essential git valac libgee-0.8-dev libgtk-3-dev libjson-glib-dev gettext libgettextpo-dev p7zip-full imagemagick
-	$ sudo apt install conky-all
-	$ git clone https://github.com/zcot/conky-manager2.git
-	$ make
-	$ sudo make install
-
-12. 폰트 설치
+11. 폰트 설치
 	Powerline 글씨체가 아니라서 폰트가 깨지는 것을 확인할 수 있음
 	Meslo LG M Regular for Powerline 글씨체 다운 및 설치
 
@@ -106,7 +111,7 @@
 	$ cd ..
 	$ rm -rf fonts
 	
-13. ZSH 설치
+12. ZSH 설치
 	$ sudo apt-get install -y zsh
 	$ chsh -s /usr/bin/zsh
 	$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -139,7 +144,23 @@
 	
 	terminal restart
 	
-14. Python 설치
+13. Conky
+	$ sudo apt-get install build-essential git valac libgee-0.8-dev libgtk-3-dev libjson-glib-dev gettext libgettextpo-dev p7zip-full imagemagick
+	$ sudo apt install conky-all
+	$ git clone https://github.com/zcot/conky-manager2.git
+	$ make
+	$ sudo make install
+	
+14. Pi-Apps Install
+	$ wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bash
+	설치할 프로그램
+	인터넷 better chromium
+	Tools->FF Multi Converter
+	System Management->Disk Usange Analyzer
+	System Management->Synaptic
+	System Management->System Monitoring Center
+	
+15. Python 설치
 	$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh
 	$ bash Miniconda3-latest-Linux-aarch64.sh
 	터미널 다시 열기
@@ -147,41 +168,27 @@
 	$ conda update --all
 	$ python -m pip install --upgrade pip
 	$ pip install jupyter  or $ conda install jupyter
-
-15. Pi-Apps Install
-	$ wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bash
-	설치할 프로그램
-	Tools->FF Multi Converter
-	System Management->Disk Usange Analyzer
-	System Management->Synaptic
-	System Management->System Monitoring Center
 	
-16. Sound Change
-	$ sudo apt-get install pulseaudio-utils
-	$ pactl list short sinks
-	$ pactl set-default-sink 'alsa_output.platform-hdmi0-sound.stereo-fallback'
-
-17.rknpu버전
-	sudo cat /sys/kernel/debug/rknpu/version
-	dmesg | grep -i rknpu
-	
-18. u boot 버전
-	sudo dpkg-query -l | grep u-boot
-	
-19. mpv설정
+16. mpv설정
 	sudo nano /etc/mpv/mpv.conf
 	hwdec=rkmpp 를 hwdec=vdpau나 hwdec=vaapi로 설정
+	
+	hwdec=rkmpp
+	vo=gpu
+	gpu-context=x11egl
+	vf-add=fps=60:round=near
+	vf-add=scale_rkrga=force_yuv=auto
 	
 	환경설정->일반->비디오 출력드라이버 vdpau
 	환경설정->고급->Mplayer/mpv 옵션에 --config=yes로 설정해야 mpv local 설정이 적용됨
 	
-20. startup sound
+17. startup sound
 	ExtUSB/Backup/Sounds/Yaru 디렉토리를 .local/share/sounds/에 복사한다.
 	Launch "Startup Applications", and click "Add". Here's what you need to put in Startup Applications' dialog box:
 	Command: /usr/bin/canberra-gtk-play --id="desktop-login" --description="GNOME Login" 
 	Description: Plays a sound at login (or whatever you choose)
 	
-21. nginx install
+18. nginx install
 	$ sudo apt update && sudo apt -y upgrade
 	$ sudo apt install curl gnupg2 ca-certificates lsb-release
 	mainline
@@ -201,7 +208,7 @@
 	uninstall 
 	$ sudo apt-get remove --purge nginx nginx-full nginx-common 
 	
-22. casaOs 설치
+19. casaOs 설치
 	$ wget -qO- https://get.casaos.io | sudo bash
 	or
 	$ curl -fsSL https://get.casaos.io | sudo bash
@@ -216,7 +223,7 @@
 	uninstall
 	$ sudo casaos-uninstall
 	
-23. Boot Screen Logo
+20. Boot Screen Logo
 	# git clone https://github.com/adi1090x/plymouth-themes.git
 	# sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/rog_2/rog_2.plymouth 100
 	# sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/ubuntu-vision/ubuntu-vision.plymouth 100
@@ -225,7 +232,7 @@
 	# sudo plymouthd; sudo plymouth --show-splash; sleep 8; sudo plymouth --quit
 	# sudo update-initramfs -u
 	
-24. 프로그램 설치에 대해
+21. 프로그램 설치에 대해
 	thunar에 관리자 권한 메뉴 추가
 	편집->사용자정의 동작설정
 		이름: 관리자권한으로 열기
@@ -254,7 +261,73 @@
 		/usr/share/nemo/actions에 복사한다.
 		sudo cp /home/darkice/ExtUSB/Backup/Apps\ Install/open-as-root.nemo_action /usr/share/nemo/actions
 
-
+22. App Install
+	# vscode
+	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+	sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+	sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+	
+	rm -f packages.microsoft.gpg
+	sudo apt update
+	sudo apt install code
+	
+	vscode qt.qpa.plugin error 처리
+	sudo nano /etc/gdm3/custom.conf
+	WaylandEnable=true in the /etc/gdm3/custom.conf
+	sudo nano /etc/environment
+	Add QT_QPA_PLATFORM="xcb" in /etc/environment
+	
+	#telegram-desktop 설치
+	sudo apt install flatpak
+	sudo apt install gnome-software-plugin-flatpak
+	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	sudo flatpak install flathub org.telegram.desktop
+	
+	#chromium
+	sudo apt-get install chromium chromium-l10n chromium-shell chromium-driver
+	chromium --gtk-version=4
+	sudo apt-get install winff-qt
+	sudo apt-get install vlc
+	sudo apt-get install xfe
+	
+	# .desktop 만드는 프로그램
+	sudo add-apt-repository ppa:ubuntuhandbook1/arronax
+	sudo apt install arronax arronax-nemo
+	
+	#balenaEtcher v1.7.9 - disk imager
+	$ wget https://github.com/Itai-Nelken/BalenaEtcher-arm/releases/download/v1.7.9/balenaEtcher-1.7.9+5945ab1f-arm64.AppImage
+	$ sudo apt-get install -y zlib1g-dev libfuse2 libfuse2t64
+	
+	#P3x-Onenote
+	$ wget https://github.com/patrikx3/onenote/releases/download/v2024.10.117/P3X-OneNote-2024.10.117-arm64.AppImage
+	
+	#audacity - audio editor
+	sudo add-apt-repository ppa:ubuntuhandbook1/audacity
+	sudo apt install audacity
+	
+	#Pulsar - markdown editor
+	https://github.com/pulsar-edit/pulsar
+	$ wget https://github.com/pulsar-edit/pulsar/releases/download/v1.123.0/ARM.Linux.Pulsar-1.123.0-arm64.AppImage
+	$ sudo apt-get install -y zlib1g-dev libfuse2 libfuse2t64
+	
+	#SimpleNote
+	$ wget https://github.com/Automattic/simplenote-electron/releases/download/v2.23.0/Simplenote-linux-2.23.0-arm64.AppImage
+	
+	#docker-compose install
+	$ sudo curl -L "https://github.com/docker/compose/releases/download/v2.36.2/docker-compose-linux-aarch64" -o /usr/local/bin/docker-compose
+	$ sudo chmod +x /usr/local/bin/docker-compose
+	$ mkdir docker-compose
+	$ nano docker-compose.yaml
+	
+23. Vulkan Driver Upgrade
+	sudo add-apt-repository ppa:oibaf/graphics-drivers
+	sudo apt update
+	sudo apt upgrade
+	sudo apt install mesa-vdpau-drivers
+	glxinfo -B
+	check OpenGL ES 3.1 Mesa 25.0
+	
+	필수) 확인후 레포지토리를 삭제해야 부팅시 에러가 없음
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 1. Gnome Dock에서 마운트 된 드라이브 안보이게 하기
 	gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
@@ -392,6 +465,7 @@ EOF
 	
 	mp4 용량 줄이기
 	ffmpeg -i hhd800.com@STARS-776.mp4 -sn -c:v libx264 -preset medium -crf 23 -tune film -sws_flags lanczos -filter:v "scale=-1:1080" -c:a aac -b:a 192k -ac 2 outfile.mkv
+	ffmpeg -i hhd800.com@STARS-776.mp4 -sn -c:v libx264 -preset medium -crf 23 -tune film -sws_flags lanczos -filter:v "scale=-1:720" -c:a aac -b:a 192k -ac 2 outfile.mkv
 	
 12. git Credential 정보 저장
 	git config credential.helper store
@@ -401,22 +475,22 @@ EOF
 	git pull시에 한번만 패스워드를 입력하면 된다.
 	
 13. uart
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart3-m0.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart0-m2.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart6-m1-full.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart1-m1.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart3-m1.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart7-m1-full.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart2-m0.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart8-m0.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart2-m2.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart4-m0.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart8-m0-full.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart4-m2.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart6-m1.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart7-m2.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart7-m1.dtbo
-	/boot/dtb-6.1.99-vendor-rk35xx/rockchip/overlay/rk3588-uart8-m1.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart0-m2.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart1-m1.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart2-m0.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart2-m2.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart3-m0.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart3-m1.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart4-m0.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart4-m2.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart6-m1-full.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart6-m1.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart7-m1-full.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart7-m1.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart7-m2.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart8-m0-full.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart8-m0.dtbo
+	/boot/dtb-6.1.115-vendor-rk35xx/rockchip/overlay/rk3588-uart8-m1.dtbo
 	
 	sudo nano /boot/armbianEnv.txt
 	overlay_prefix=rk3588
@@ -426,3 +500,47 @@ EOF
 	아래와 같이 수정한다.
 	overlay_prefix=
 	overlays=rockchip-rk3588-panthor-gpu rk3588-uart3-m1
+
+14.rknpu버전
+	sudo cat /sys/kernel/debug/rknpu/version
+	dmesg | grep -i rknpu
+	
+15. u boot 버전
+	sudo dpkg-query -l | grep u-boot
+
+16. Gnome Extension
+	sudo apt-get install gdm3 gnome-tweaks gnome-shell-extension-manager chrome-gnome-shell
+	
+17. MacOS
+	$ git clone https://github.com/vinceliuice/Mojave-gtk-theme
+	$ cd ~/Downloads/Mojave-gtk-theme
+	위의 화일을 압축을 풀고 $ ./install.sh -t all실행
+	
+	$ git clone https://github.com/vinceliuice/WhiteSur-gtk-theme
+	$ cd ~/Downloads/WhiteSur-gtk-theme
+	위의 화일을 압축을 풀고 $ ./install.sh -t all실행 $ sudo ./tweaks.sh -g실행
+	$ git clone https://github.com/vinceliuice/WhiteSur-icon-theme
+	$ cd ~/ExtUSB/Downloads/WhiteSur-icon-theme
+	$ sudo ./install.sh
+	$ git clone https://github.com/vinceliuice/WhiteSur-cursors
+	$ cd ~/ExtUSB/Downloads/WhiteSur-cursors
+	$ sudo ./install.sh
+	$ git clone https://github.com/vinceliuice/WhiteSur-wallpapers
+	$ cd ~/ExtUSB/Downloads/WhiteSur-wallpapers
+	$ sudo ./install-gnome-backgrounds.sh
+	
+	$ git clone https://github.com/vinceliuice/Orchis-theme.git
+	$ cd ~/Downloads/Orchis-theme
+	$ ./install.sh -t [orange][all]
+	$ ./install.sh -t orange --tweaks macos
+
+18. 내트워크 물음표 표시된경우
+	sudo systemctl restart NetworkManager
+	
+	/home/darkice/ExtUSB/rockchip_rk3588/ubuntu_setting/network_check.sh 실행
+타이머 확인:
+systemctl list-timers | grep nmcli
+동작 로그 확인:
+journalctl -u check-nmcli-connectivity.service --no-pager
+강제로 테스트 (Wi-Fi 끊고 실행):
+sudo /usr/local/bin/check_nmcli_connectivity.sh
