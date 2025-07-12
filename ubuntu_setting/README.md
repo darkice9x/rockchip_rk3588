@@ -55,7 +55,9 @@ sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
 bash 01.init_install.sh
 ```
 
-언어 설정한다. 다시 리부팅한다.
+언어 설정한다(Language support).
+
+다시 리부팅한다.
 
 ```shell
 bash locale.sh
