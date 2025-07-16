@@ -18,7 +18,7 @@ xz -dc Armbian_25.5.1_Orangepi5-plus_noble_vendor_6.1.115_gnome_desktop.img.xz |
 	$ sudo apt -y purge chromium
 	$ sudo apt-get upgrade
 	# 25.2.3 kernel 6.1.99
-	$ sudo apt -y install geany nemo cpufrequtils net-tools smplayer inxi plocate
+	$ sudo apt -y install geany nemo cpufrequtils net-tools smplayer inxi plocate gnome-font-viewer
 	$ sudo apt -y install ubuntu-desktop dbus-x11 xterm pulseaudio pavucontrol qtwayland5 \
 	gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good mpv \
 	gstreamer1.0-tools dvb-tools ir-keytable libdvbv5-0 libdvbv5-dev libdvbv5-doc libv4l-0 \
