@@ -12,7 +12,7 @@ fi
 
 # oh-my-zsh 설치
 if [ -d "$HOME/.oh-my-zsh" ]; then
-    echo "📦 tt 설치 중..."
+    echo "📦 $HOME/.oh-my-zsh 삭제중..."
     rm -rf $HOME/.oh-my-zsh
 fi
 
