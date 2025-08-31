@@ -13,6 +13,8 @@ mesa-utils libcanberra-pulse oem-config-gtk ubiquity-frontend-gtk ubiquity-slide
 gnome-startup-applications gnome-remote-desktop language-selector-gnome \
 im-config cinnamon-l10n
 
+sudo apt-get install -y "fonts-nanum*"
+
 echo "Sound System"
 sudo apt -y install pipewire-alsa
 systemctl --user enable pipewire
