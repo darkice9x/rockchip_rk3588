@@ -14,9 +14,9 @@ Armbian Orange Pi 5 Plus, Orange Pi 5 등등.
 
 다운로드 링크: 
 
-[Armbian_25.2.1_Orangepi5-plus_noble_vendor_6.1.99_gnome_desktop](https://dl.armbian.com/orangepi5-plus/Noble_vendor_gnome)
+[Armbian_25.8.1_Orangepi5-plus_noble_vendor_6.1.115_gnome_desktop](https://dl.armbian.com/orangepi5-plus/Noble_vendor_gnome)
 
-[Armbian_25.2.1_Orangepi5_noble_vendor_6.1.99_gnome_desktop](https://dl.armbian.com/orangepi5/Noble_vendor_gnome)
+[Armbian_25.8.1_Orangepi5_noble_vendor_6.1.115_gnome_desktop](https://dl.armbian.com/orangepi5/Noble_vendor_gnome)
 
 SD Card에 이미지 쓰기:
 
