@@ -72,3 +72,21 @@ bash zsh_install.sh
 CASAOS 설치
 curl -fsSL https://get.casaos.io | sudo bash
 ```
+
+## 7. Conky 설치
+
+```shell
+sudo apt-get install build-essential git valac libgee-0.8-dev libgtk-3-dev libjson-glib-dev gettext libgettextpo-dev p7zip-full imagemagick
+sudo apt install conky-all
+git clone https://github.com/zcot/conky-manager2.git
+make
+sudo make install
+```
+
+Conky manager를 실행한후 종료한다.
+
+~/.conky가 생성된다.
+
+Conky_theme에 있는 기종에 맞는 theme를 ~/.conky로 복사한다.
+
+Conky manager를 실행한후 설정한다.
