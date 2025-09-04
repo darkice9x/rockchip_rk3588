@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Init Desktop"
 sudo apt-get update
-sudo apt -y purge chromium
+#sudo apt -y purge chromium
 sudo apt-get upgrade -y
 
 sudo apt -y install ubuntu-desktop dbus-x11 xterm pulseaudio pavucontrol qtwayland5 \
@@ -68,6 +68,8 @@ EOF
 
 sudo systemctl restart cpufrequtils
 echo "/etc/default/cpufrequtils 파일이 성공적으로 업데이트되었습니다."
+
+sudo cp ./Chromium/* /usr/share/applications/
 
 #gnome tweak and background
 mkdir -p ~/ExtUSB/Downloads
