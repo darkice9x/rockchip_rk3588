@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Init Desktop"
 sudo apt-get update
-#sudo apt -y purge chromium
+sudo apt -y purge chromium-browser
 sudo apt-get upgrade -y
 
 sudo apt -y install ubuntu-desktop dbus-x11 xterm pulseaudio pavucontrol qtwayland5 \
