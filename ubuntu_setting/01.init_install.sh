@@ -121,6 +121,10 @@ sudo cp -r ~/ExtUSB/Backup/Wallpaper/Linux_Dynamic_Wallpapers/Dynamic_Wallpapers
 sudo cp ~/ExtUSB/Backup/Wallpaper/Linux_Dynamic_Wallpapers/xml/* /usr/share/gnome-background-properties/
 echo "Wallpapers has been installed. Enjoy setting them as your desktop background!"
 
+#테마 설정
+gsettings set org.gnome.desktop.interface cursor-theme 'WhiteSur-cursors'
+gsettings set org.gnome.desktop.interface icon-theme 'WhiteSur-dark'
+
 #sudo apt update && sudo apt -y upgrade
 sudo apt -y install curl gnupg2 ca-certificates lsb-release
 echo "deb http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
