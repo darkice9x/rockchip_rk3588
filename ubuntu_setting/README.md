@@ -54,7 +54,16 @@ sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
 ```shell
 bash init_install.sh
 ```
-
+```doc
+-내용설명
+필요한 라이브러리 설치
+필요한 앱 설치
+cpufrequtils 설정
+WhiteSur-icon-theme, hiteSur-cursors, WhiteSur-wallpapers Linux_Dynamic_Wallpapers 설치
+tweak에서 cursor-theme , icon-theme 설정
+nginx 설치
+pi-app 설치
+```
 언어 설정한다(Language support).
 
 다시 리부팅한다.
@@ -62,7 +71,15 @@ bash init_install.sh
 ```shell
 bash locale.sh
 ```
-
+```doc
+-내용설명
+ko_KR 설정
+자동 로그인 불가설정
+nemo 루트 옵션 세팅
+마운트 드라이버 안보이기
+모니터 설정 저장
+docker-compose 설치
+```
 리부팅한다. 다음 실행
 
 ```shell
