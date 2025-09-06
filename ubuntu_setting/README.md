@@ -52,7 +52,7 @@ sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
 ## 6. 스크립트 실행
 
 ```shell
-bash 01.init_install.sh
+bash init_install.sh
 ```
 
 언어 설정한다(Language support).
