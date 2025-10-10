@@ -100,8 +100,7 @@ sudo ./install.sh
 cd ~/ExtUSB/Downloads/WhiteSur-wallpapers
 sudo ./install-gnome-backgrounds.sh
 
-if [[ -d /usr/share/backgrounds/Dynamic_Wallpapers ]]
-then 
+if [[ -d /usr/share/backgrounds/Dynamic_Wallpapers ]]; then 
 	sudo rm -r /usr/share/backgrounds/Dynamic_Wallpapers
 	echo "Cleaning up"
 fi
