@@ -7,7 +7,7 @@ set -e
 
 echo "🔧 [1/6] fcitx5 및 관련 패키지 설치 중..."
 sudo apt update
-sudo apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk4 im-config dbus-x11
+sudo apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk4 im-config dbus-x11 fonts-nanum fonts-nanum-coding fonts-noto-cjk
 
 echo "⚙️ [2/6] im-config로 fcitx5를 기본 입력기로 설정..."
 im-config -n fcitx5
