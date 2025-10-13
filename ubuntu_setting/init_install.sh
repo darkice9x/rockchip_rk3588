@@ -58,6 +58,9 @@ sudo apt install -y libsndfile1-dev
 sudo apt install -y geany nemo mc cpufrequtils thunar net-tools dconf-editor smplayer inxi plocate kdiskmark evince gnome-font-viewer baobab
 sudo apt install -y gdm3 gnome-tweaks gnome-shell-extension-manager chrome-gnome-shell
 
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.40.0/docker-compose-linux-aarch64" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
 #/etc/default/cpufrequtils 파일에 내용 작성
 cat << EOF | sudo tee /etc/default/cpufrequtils > /dev/null
 ENABLE=true

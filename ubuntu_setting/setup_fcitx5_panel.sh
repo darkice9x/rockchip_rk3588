@@ -7,9 +7,10 @@ set -e
 
 echo "🔧 [1/6] fcitx5 UI 및 패널 관련 패키지 설치 중..."
 sudo apt update
-sudo apt install -y fcitx5-ui-classic fcitx5-material-color fcitx5-frontend-gtk4 \
-                    fcitx5-frontend-gtk3 fcitx5-frontend-qt5 fcitx5-gtk fcitx5-qt \
-                    fcitx5-module-dbus fcitx5-module-wayland fcitx5-config-qt dbus-x11
+sudo apt install -y fcitx5-material-color fcitx5-frontend-gtk4 \
+                    fcitx5-frontend-gtk3 fcitx5-frontend-qt5 \
+                    fcitx5-module-dbus fcitx5-module-wayland fcitx5-config-qt dbus-x11 
+                    #fcitx5-ui-classic fcitx5-gtk fcitx5-qt
 
 echo ""
 echo "🔍 [2/6] 현재 데스크톱 환경 감지 중..."
