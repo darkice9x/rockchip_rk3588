@@ -7,6 +7,10 @@
 # GNOME, Cinnamon, XFCE, Armbian 등 모든 환경에서 작동
 #
 
+sudo apt update
+sudo apt install -y language-pack-ko language-pack-ko-base language-selector-common language-selector-gnome language-pack-gnome-ko language-pack-gnome-ko-base
+sudo apt install -y fonts-nanum fonts-nanum-coding fonts-noto-cjk fonts-unfonts-core fonts-unfonts-extra
+
 CONFIG_DIR="$HOME/.config"
 LOCALE_FILE="$CONFIG_DIR/user-dirs.locale"
 DIRS_FILE="$CONFIG_DIR/user-dirs.dirs"
