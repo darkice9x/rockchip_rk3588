@@ -7,7 +7,7 @@ set -e
 
 echo "🔧 [1/6] fcitx5 및 관련 패키지 설치 중..."
 sudo apt update
-sudo apt install -y language-pack-ko language-pack-ko-base language-selector-common language-selector-gnome
+sudo apt install -y language-pack-ko language-pack-ko-base language-selector-common language-selector-gnome language-pack-gnome-ko language-pack-gnome-ko-base
 sudo apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk4 im-config dbus-x11 
 sudo apt install -y fonts-nanum fonts-nanum-coding fonts-noto-cjk fonts-unfonts-core fonts-unfonts-extra
 
