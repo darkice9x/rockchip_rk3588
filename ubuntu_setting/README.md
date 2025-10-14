@@ -70,7 +70,7 @@ pi-app 설치
 
 fcitx5를 입력기로 사용하기 위해서는 setup_fcitx5_full.sh와 setup_fcitx5_panel.sh를 실행시켜준다.
 
-또한 https://extensions.gnome.org/extension/261/kimpanel/에서 extension을 인스톨하고 fcitx5-config-qt를 실행하고 전역옵션에서 alt키 등록한다.
+또한 https://extensions.gnome.org/extension/261/kimpanel/ 에서 extension을 인스톨하고 fcitx5-config-qt를 실행하고 전역옵션에서 alt키 등록한다.
 
 ```shell
 bash locale.sh
