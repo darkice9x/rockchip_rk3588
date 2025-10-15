@@ -72,6 +72,7 @@ echo "현재 user-dirs.locale: $CURRENT_LANG"
 #else
 #    switch_to_korean
 #fi
+
 switch_to_english
 switch_to_korean
 
