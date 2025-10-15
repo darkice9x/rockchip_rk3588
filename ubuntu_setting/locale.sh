@@ -67,11 +67,13 @@ switch_to_english() {
 
 # 실행 로직
 echo "현재 user-dirs.locale: $CURRENT_LANG"
-if [[ "$CURRENT_LANG" == "ko_KR" ]]; then
-    switch_to_english
-else
-    switch_to_korean
-fi
+#if [[ "$CURRENT_LANG" == "ko_KR" ]]; then
+#    switch_to_english
+#else
+#    switch_to_korean
+#fi
+switch_to_english
+switch_to_korean
 
 # 결과 표시
 echo
