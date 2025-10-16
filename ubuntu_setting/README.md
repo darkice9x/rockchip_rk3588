@@ -112,3 +112,29 @@ Conky manager를 실행한후 종료한다.
 Conky_theme에 있는 기종에 맞는 theme를 ~/.conky로 복사한다.
 
 Conky manager를 실행한후 설정한다.
+
+## 추가사항
+
+```doc
+python의 rknnlite에서 아래와 같은 에러가 발생할 경우
+/home/darkice/miniconda3/envs/pyside6rknn/lib/python3.12/site-packages/rknnlite/api/rknn_lite.py:41: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81. import pkg_resources
+
+경고는 pkg_resources 모듈이 곧 제거될 예정이라는 알림입니다.
+즉, setuptools 81버전 이후부터는 pkg_resources를 더 이상 사용할 수 없게 될 가능성이 높습니다.
+이 모듈은 오래전부터 패키지 버전 관리나 entry point 검색용으로 쓰였지만,
+지금은 importlib.metadata (표준 라이브러리)로 대체되었습니다.
+
+아래와 같이 수정하거나
+원본:
+	import pkg_resources
+	self.rknn_log.w('rknn-toolkit-lite2 version: ' +
+					pkg_resources.get_distribution("rknn-toolkit-lite2").version)
+					
+  바꿈:
+	from importlib.metadata import version
+	self.rknn_log.w('rknn-toolkit-lite2 version: ' + version("rknn-toolkit-lite2"))
+
+patch_rknn_lite.sh를 아래와 같이 실행해 준다.
+bash patch_rknn_lite.sh {찾을 최상위 디렉토리}
+
+conda로 각 가상환경을 만들때 rknnlite를 실행한 경우 매번 실행해서 바꾸어 주어야 한다.
