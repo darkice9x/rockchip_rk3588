@@ -46,6 +46,7 @@ sudo apt install -y nodejs npm dnsutils
 sudo apt-get -y install autoconf automake pkg-config libnl-3-dev libnl-genl-3-dev libssl-dev ethtool \
 shtool rfkill zlib1g-dev libpcap-dev libsqlite3-dev libpcre2-dev libhwloc-dev libcmocka-dev hostapd \
 wpasupplicant tcpdump screen iw usbutils expect
+sudo apt install -y ccache
 #case "/usr/bin/ld: cannot find -lstdc++: No such file or directory" 
 #ubuntu 24.04 gcc 13 , clang version 18 
 sudo apt install -y libstdc++-14-dev
