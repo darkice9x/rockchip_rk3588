@@ -142,3 +142,7 @@ service nginx start
 
 #pi-app install
 wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bash
+
+#프로그램 등록
+cp ~/ExtUSB/Apps/Apps_Desktop/* ~/.local/share/applications/
+sudo cp ~/ExtUSB/Apps/SenseVoiceTrans /usr/local/bin/
