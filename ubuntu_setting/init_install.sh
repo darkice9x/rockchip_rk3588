@@ -129,6 +129,19 @@ echo "Wallpapers has been installed. Enjoy setting them as your desktop backgrou
 gsettings set org.gnome.desktop.interface cursor-theme 'WhiteSur-cursors'
 gsettings set org.gnome.desktop.interface icon-theme 'WhiteSur-dark'
 
+#ZRAM 확장 16G로
+# 백업 생성
+sudo cp "/etc/default/armbian-zram-config" "/etc/default/armbian-zram-config.bak"
+
+# ZRAM_PERCENTAGE 변경
+sudo sed -i 's/^#\s*ZRAM_PERCENTAGE=50/ZRAM_PERCENTAGE=100/' "/etc/default/armbian-zram-config"
+
+# TMP_SIZE 변경
+sudo sed -i 's/^#\s*TMP_SIZE=500M/# TMP_SIZE=16000M/' "/etc/default/armbian-zram-config"
+
+echo "수정 완료 ✅"
+echo "백업 파일: /etc/default/armbian-zram-config.bak"
+
 #sudo apt update && sudo apt -y upgrade
 sudo apt -y install curl gnupg2 ca-certificates lsb-release
 echo "deb http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" \
