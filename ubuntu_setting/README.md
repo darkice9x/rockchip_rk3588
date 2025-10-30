@@ -138,3 +138,4 @@ patch_rknn_lite.sh를 아래와 같이 실행해 준다.
 bash patch_rknn_lite.sh {찾을 최상위 디렉토리}
 
 conda로 각 가상환경을 만들때 rknnlite를 실행한 경우 매번 실행해서 바꾸어 주어야 한다.
+```
