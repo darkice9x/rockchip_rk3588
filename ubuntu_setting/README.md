@@ -61,6 +61,7 @@ bash init_install.sh
 cpufrequtils 설정
 WhiteSur-icon-theme, hiteSur-cursors, WhiteSur-wallpapers Linux_Dynamic_Wallpapers 설치
 tweak에서 cursor-theme , icon-theme 설정
+ZRAM을 16GB로 확장
 nginx 설치
 pi-app 설치
 ```
