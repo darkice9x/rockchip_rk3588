@@ -1,8 +1,8 @@
 #!/bin/bash
 echo "Init Desktop"
-sudo apt-get update
+sudo apt update
 sudo apt -y purge chromium-browser
-sudo apt-get upgrade -y
+sudo apt upgrade -y
 
 sudo apt -y install ubuntu-desktop dbus-x11 xterm pulseaudio pavucontrol qtwayland5 \
 gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good mpv \
@@ -13,7 +13,7 @@ mesa-utils libcanberra-pulse oem-config-gtk ubiquity-frontend-gtk ubiquity-slide
 gnome-startup-applications gnome-remote-desktop language-selector-gnome \
 im-config cinnamon-l10n
 
-sudo apt-get install -y "fonts-nanum*"
+#sudo apt-get install -y "fonts-nanum*"
 
 echo "Sound System"
 sudo apt -y install pipewire-alsa
@@ -160,3 +160,5 @@ wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bas
 #프로그램 등록
 cp ~/ExtUSB/Apps/Apps_Desktop/* ~/.local/share/applications/
 sudo cp ~/ExtUSB/Apps/SenseVoiceTrans /usr/local/bin/
+sudo cp ~/ExtUSB/Apps/translate /usr/local/bin/
+sudo cp ~/ExtUSB/Apps/update_desc_nfo /usr/local/bin/
