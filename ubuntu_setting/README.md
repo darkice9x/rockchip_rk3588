@@ -114,7 +114,7 @@ Conky_theme에 있는 기종에 맞는 theme를 ~/.conky로 복사한다.
 
 Conky manager를 실행한후 설정한다.
 
-## 추가사항
+## 추가사항1
 
 ```doc
 python의 rknnlite에서 아래와 같은 에러가 발생할 경우
@@ -139,4 +139,17 @@ patch_rknn_lite.sh를 아래와 같이 실행해 준다.
 bash patch_rknn_lite.sh {찾을 최상위 디렉토리}
 
 conda로 각 가상환경을 만들때 rknnlite를 실행한 경우 매번 실행해서 바꾸어 주어야 한다.
+```
+
+## 추가사항2
+
+```doc
+docker-ce버전이 29이고 casaos가 0.4.15일때는 아래와 같이해야 한다.
+	$sudo systemctl edit docker.service
+	Add bellow
+	[Service]
+	Environment=DOCKER_MIN_API_VERSION=1.24
+
+	Save the file and exit 
+	$sudo systemctl restart docker
 ```
