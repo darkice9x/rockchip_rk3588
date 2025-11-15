@@ -145,11 +145,13 @@ conda로 각 가상환경을 만들때 rknnlite를 실행한 경우 매번 실�
 
 ```doc
 docker-ce버전이 29이고 casaos가 0.4.15일때는 아래와 같이해야 한다.
-	$sudo systemctl edit docker.service
+	$sudo nano /usr/lib/systemd/system/docker.service
 	Add bellow
 	[Service]
 	Environment=DOCKER_MIN_API_VERSION=1.24
 
 	Save the file and exit 
+	$sudo systemctl restart docker
+	$sudo systemctl daemon-reload
 	$sudo systemctl restart docker
 ```
