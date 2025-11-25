@@ -93,6 +93,9 @@ ZSH 설치
 bash zsh_install.sh
 
 CASAOS 설치
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
 curl -fsSL https://get.casaos.io | sudo bash
 ```
 
