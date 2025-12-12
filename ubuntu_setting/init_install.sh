@@ -159,8 +159,5 @@ wget -qO- https://raw.githubusercontent.com/Botspot/pi-apps/master/install | bas
 
 #프로그램 등록
 cp ~/ExtUSB/Apps/Apps_Desktop/* ~/.local/share/applications/
-sudo cp ~/ExtUSB/Apps/SenseVoiceTrans /usr/local/bin/
-sudo cp ~/ExtUSB/Apps/translate /usr/local/bin/
-sudo cp ~/ExtUSB/Apps/update_desc_nfo /usr/local/bin/
-sudo cp ~/ExtUSB/Apps/update_desc_nfo_supjav /usr/local/bin/
-sudo cp ~/ExtUSB/Apps/update_desc_nfo_javtsunami /usr/local/bin/
+sudo cp ~/ExtUSB/Apps/Utils/* /usr/local/bin/
+
