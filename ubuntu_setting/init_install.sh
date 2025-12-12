@@ -162,3 +162,5 @@ cp ~/ExtUSB/Apps/Apps_Desktop/* ~/.local/share/applications/
 sudo cp ~/ExtUSB/Apps/SenseVoiceTrans /usr/local/bin/
 sudo cp ~/ExtUSB/Apps/translate /usr/local/bin/
 sudo cp ~/ExtUSB/Apps/update_desc_nfo /usr/local/bin/
+sudo cp ~/ExtUSB/Apps/update_desc_nfo_supjav /usr/local/bin/
+sudo cp ~/ExtUSB/Apps/update_desc_nfo_javtsunami /usr/local/bin/
