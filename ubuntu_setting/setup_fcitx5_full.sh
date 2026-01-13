@@ -5,10 +5,29 @@
 
 set -e
 
+OS_RELEASE_FILE="/etc/os-release"
+
+if [ ! -f "$OS_RELEASE_FILE" ]; then
+    echo "ERROR: /etc/os-release 파일이 존재하지 않습니다."
+    exit 1
+fi
+
+# source로 변수 로드
+. "$OS_RELEASE_FILE"
+
 echo "🔧 [1/6] fcitx5 및 관련 패키지 설치 중..."
 sudo apt update
-sudo apt install -y language-pack-ko language-pack-ko-base language-selector-common language-selector-gnome language-pack-gnome-ko language-pack-gnome-ko-base
-sudo apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt fcitx5-frontend-gtk4 im-config dbus-x11 
+if [ "$ID" = "ubuntu" ]; then
+    echo "판별 결과: Ubuntu 계열입니다."
+	sudo apt install -y language-pack-ko language-pack-ko-base language-selector-common language-selector-gnome language-pack-gnome-ko language-pack-gnome-ko-base
+elif [ "$ID" = "debian" ]; then
+	sudo apt install -y fcitx5 fcitx5-hangul fcitx5-config-qt im-config dbus-x11 
+	if [ "$DESKTOP_SESSION" = "cinnamon" ]; then
+		sudo apt install -y fcitx5-frontend-gtk3
+	else
+		sudo apt install -y fcitx5-frontend-gtk4
+	fi
+fi
 sudo apt install -y fonts-nanum fonts-nanum-coding fonts-noto-cjk fonts-unfonts-core fonts-unfonts-extra
 
 echo "⚙️ [2/6] im-config로 fcitx5를 기본 입력기로 설정..."

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=paplay "/home/darkice/.local/share/sounds/Yaru/stereo/desktop-login.oga"
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_IN]=Plays a sound at login
+Name=Login Sound
+Comment[en_IN]=
+Comment=

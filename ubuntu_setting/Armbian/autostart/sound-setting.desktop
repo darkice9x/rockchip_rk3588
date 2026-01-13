@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=pactl set-default-sink 'alsa_output.platform-hdmi0-sound.stereo-fallback'
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_IN]=Sound Setting
+Name=사운드 세팅
+Comment[en_IN]=
+Comment=

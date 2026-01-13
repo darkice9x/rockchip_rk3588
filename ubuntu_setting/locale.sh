@@ -7,8 +7,29 @@
 # GNOME, Cinnamon, XFCE, Armbian 등 모든 환경에서 작동
 #
 
+OS_RELEASE_FILE="/etc/os-release"
+
+if [ ! -f "$OS_RELEASE_FILE" ]; then
+    echo "ERROR: /etc/os-release 파일이 존재하지 않습니다."
+    exit 1
+fi
+
+# source로 변수 로드
+. "$OS_RELEASE_FILE"
+
+# 배포판 판별 (if문)
+if [ "$ID" = "ubuntu" ]; then
+    echo "판별 결과: Ubuntu 계열입니다."
+elif [ "$ID" = "debian" ]; then
+    echo "판별 결과: Debian 계열입니다."
+else
+    echo "판별 결과: 기타 배포판 ($ID) 입니다."
+fi
+    
 sudo apt update
-sudo apt install -y language-pack-ko language-pack-ko-base language-selector-common language-selector-gnome language-pack-gnome-ko language-pack-gnome-ko-base
+if [ "$ID" = "ubuntu" ]; then
+	sudo apt install -y language-pack-ko language-pack-ko-base language-selector-common language-selector-gnome language-pack-gnome-ko language-pack-gnome-ko-base
+fi
 sudo apt install -y fonts-nanum fonts-nanum-coding fonts-noto-cjk fonts-unfonts-core fonts-unfonts-extra
 
 CONFIG_DIR="$HOME/.config"
@@ -73,8 +94,10 @@ echo "현재 user-dirs.locale: $CURRENT_LANG"
 #    switch_to_korean
 #fi
 
-switch_to_english
-switch_to_korean
+if [ "$ID" = "ubuntu" ]; then
+	switch_to_english
+	switch_to_korean
+fi
 
 # 결과 표시
 echo
@@ -89,16 +112,19 @@ sudo dpkg-reconfigure locales
 sudo -u gdm dbus-launch gsettings set org.gnome.system.locale region 'ko_KR.UTF-8'
 sudo update-locale LANG=ko_KR.UTF-8 LC_ALL=ko_KR.UTF-8
 
-sudo cp /home/darkice/ExtUSB/Backup/Apps\ Install/open-as-root.nemo_action /usr/share/nemo/actions
-gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
+if [ "$ID" = "ubuntu" ]; then
+	gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
+	sudo cp /home/darkice/ExtUSB/Backup/Apps\ Install/open-as-root.nemo_action /usr/share/nemo/actions
+fi
 
 #/etc/gdm3/custom.conf 파일에 내용 작성
+if [ "$ID" = "ubuntu" ]; then
 cat << EOF | sudo tee /etc/gdm3/custom.conf > /dev/null
 [daemon]
 	AutomaticLoginEnable = false
 	AutomaticLogin = darkice
 EOF
-
+fi
 sudo cp ~/.config/monitors.xml /var/lib/gdm3/.config/monitors.xml
 
 #docker-compose

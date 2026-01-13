@@ -1,0 +1,102 @@
+[/]
+desklet-decorations=0
+desktop-effects=false
+enabled-applets=['panel2:left:1:show-desktop@cinnamon.org:1', 'panel2:left:0:grouped-window-list@cinnamon.org:2', 'panel1:right:0:systray@cinnamon.org:3', 'panel1:right:1:xapp-status@cinnamon.org:4', 'panel1:right:2:notifications@cinnamon.org:5', 'panel1:right:3:printers@cinnamon.org:6', 'panel1:right:4:removable-drives@cinnamon.org:7', 'panel1:right:5:keyboard@cinnamon.org:8', 'panel1:right:6:favorites@cinnamon.org:9', 'panel1:right:7:network@cinnamon.org:10', 'panel1:right:8:sound@cinnamon.org:11', 'panel1:right:9:power@cinnamon.org:12', 'panel1:right:10:calendar@cinnamon.org:13', 'panel2:right:0:CinnVIIStarkMenu@NikoKrause:14']
+enabled-desklets=@as []
+enabled-extensions=['transparent-panels@germanfr']
+next-applet-id=15
+panel-edit-mode=false
+panel-zone-icon-sizes='[{"panelId":1,"left":0,"center":0,"right":24},{"left":0,"center":0,"right":0,"panelId":2}]'
+panel-zone-symbolic-icon-sizes='[{"panelId": 1, "left": 28, "center": 28, "right": 16}, {"left": 28, "center": 28, "right": 28, "panelId": 2}]'
+panel-zone-text-sizes='[{"panelId":1,"left":0,"center":0,"right":0},{"left":0,"center":0,"right":0,"panelId":2}]'
+panels-autohide=['1:false', '2:false']
+panels-enabled=['1:0:top', '2:0:left']
+panels-height=['1:33', '2:48']
+panels-hide-delay=['1:0', '2:0']
+panels-resizable=['1:true']
+panels-show-delay=['1:0', '2:0']
+startup-animation=false
+
+[desktop/a11y/applications]
+screen-keyboard-enabled=false
+screen-reader-enabled=false
+
+[desktop/a11y/mouse]
+dwell-click-enabled=false
+dwell-threshold=10
+dwell-time=1.2
+secondary-click-enabled=false
+secondary-click-time=1.2
+
+[desktop/applications/terminal]
+exec='gnome-terminal'
+
+[desktop/background]
+picture-options='zoom'
+picture-uri='file:///usr/share/backgrounds/armbian/armbian03-Dre0x-Minum-dark-3840x2160.jpg'
+primary-color='#456789'
+secondary-color='#FFFFFF'
+
+[desktop/default-applications/terminal]
+exec='/usr/bin/terminator'
+
+[desktop/interface]
+clock-show-date=true
+cursor-theme='WhiteSur-cursors'
+gtk-theme='WhiteSur-Dark'
+icon-theme='WhiteSur-dark'
+scaling-factor=uint32 0
+toolkit-accessibility=false
+
+[desktop/media-handling]
+autorun-never=false
+
+[desktop/screensaver]
+picture-options='zoom'
+picture-uri='file:///usr/share/backgrounds/armbian-lightdm/armbian03-Dre0x-Minum-dark-3840x2160'
+primary-color='#456789'
+secondary-color='#FFFFFF'
+
+[desktop/sound]
+event-sounds=false
+
+[desktop/wm/preferences]
+num-workspaces=2
+theme='Numix'
+
+[settings-daemon/peripherals/touchpad]
+disable-while-typing=true
+horiz-scroll-enabled=false
+motion-acceleration=5.4820717131474108
+motion-threshold=2
+natural-scroll=false
+scroll-method='two-finger-scrolling'
+three-finger-click=2
+two-finger-click=3
+
+[settings-daemon/plugins/power]
+button-power='interactive'
+critical-battery-action='hibernate'
+idle-brightness=30
+idle-dim-time=90
+lid-close-ac-action='nothing'
+lid-close-battery-action='nothing'
+sleep-display-ac=600
+sleep-display-battery=600
+sleep-inactive-ac-timeout=0
+sleep-inactive-battery-timeout=0
+
+[settings-daemon/plugins/xsettings]
+buttons-have-icons=true
+menus-have-icons=true
+
+[sounds]
+login-enabled=false
+logout-enabled=false
+plug-enabled=false
+switch-enabled=false
+tile-enabled=false
+unplug-enabled=false
+
+[theme]
+name='WhiteSur-Dark'

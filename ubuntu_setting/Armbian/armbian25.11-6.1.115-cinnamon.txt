@@ -1,0 +1,53 @@
+1. 디렉터리부터 생성
+
+먼저 디렉터리 존재 여부 확인:
+
+ls /etc/X11
+
+
+xorg.conf.d가 없다면 생성:
+
+sudo mkdir -p /etc/X11/xorg.conf.d
+
+
+확인:
+
+ls /etc/X11/xorg.conf.d
+
+
+(비어 있어도 정상)
+
+2. 10-monitor.conf 파일 생성
+sudo nano /etc/X11/xorg.conf.d/10-monitor.conf
+
+
+이제 여기에 직접 내용 입력하는 구조입니다.
+
+3. 기본 템플릿 (Orange Pi 5 Plus + HDMI 예시)
+
+아래를 그대로 붙여넣고, HDMI 포트명과 해상도만 본인 환경에 맞게 수정하세요.
+
+Section "Monitor"
+    Identifier "HDMI-1"
+    Option "PreferredMode" "1920x1080"
+EndSection
+
+Section "Screen"
+    Identifier "Screen0"
+    Monitor "HDMI-1"
+    DefaultDepth 24
+    SubSection "Display"
+        Depth 24
+        Modes "1920x1080"
+    EndSubSection
+EndSection
+
+
+중요
+
+HDMI-1 → 반드시 xrandr에서 나오는 실제 포트명
+
+1920x1080 → 원하는 해상도
+
+4. 저장 후 재부팅
+sudo reboot

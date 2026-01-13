@@ -5,12 +5,32 @@
 
 set -e
 
+OS_RELEASE_FILE="/etc/os-release"
+
+if [ ! -f "$OS_RELEASE_FILE" ]; then
+    echo "ERROR: /etc/os-release 파일이 존재하지 않습니다."
+    exit 1
+fi
+
+# source로 변수 로드
+. "$OS_RELEASE_FILE"
+
 echo "🔧 [1/6] fcitx5 UI 및 패널 관련 패키지 설치 중..."
 sudo apt update
-sudo apt install -y fcitx5-material-color fcitx5-frontend-gtk4 \
-                    fcitx5-frontend-gtk3 fcitx5-frontend-qt5 \
-                    fcitx5-module-dbus fcitx5-module-wayland fcitx5-config-qt dbus-x11 
-                    #fcitx5-ui-classic fcitx5-gtk fcitx5-qt
+if [ "$ID" = "ubuntu" ]; then
+	sudo apt install -y fcitx5-material-color fcitx5-frontend-gtk4 \
+						fcitx5-frontend-gtk3 fcitx5-frontend-qt5 \
+						fcitx5-module-dbus fcitx5-module-wayland fcitx5-config-qt dbus-x11 
+elif [ "$ID" = "debian" ]; then
+	sudo apt install -y fcitx5-material-color \
+						fcitx5-frontend-gtk3 fcitx5-frontend-qt5 \
+						fcitx5-module-dbus fcitx5-module-wayland fcitx5-config-qt dbus-x11 
+	if [ "$DESKTOP_SESSION" = "cinnamon" ]; then
+		 sudo apt install -y fcitx5-frontend-gtk3
+	else
+		 sudo apt install -y fcitx5-frontend-gtk4
+	fi
+fi
 
 echo ""
 echo "🔍 [2/6] 현재 데스크톱 환경 감지 중..."

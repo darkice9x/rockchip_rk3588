@@ -1,0 +1,21 @@
+[list-view]
+default-visible-columns=['name', 'size', 'type', 'date_modified', 'owner', 'permissions']
+
+[preferences]
+quick-renames-with-pause-in-between=true
+show-advanced-permissions=true
+show-compact-view-icon-toolbar=false
+show-full-path-titles=true
+show-hidden-files=true
+show-home-icon-toolbar=true
+show-icon-view-icon-toolbar=false
+show-image-thumbnails='never'
+show-list-view-icon-toolbar=false
+show-new-folder-icon-toolbar=true
+show-open-in-terminal-toolbar=true
+
+[window-state]
+geometry='800x550+769+116'
+maximized=false
+sidebar-bookmark-breakpoint=5
+start-with-sidebar=true
