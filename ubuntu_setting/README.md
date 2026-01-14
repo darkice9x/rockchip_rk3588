@@ -158,3 +158,10 @@ docker-ce버전이 29이고 casaos가 0.4.15일때는 아래와 같이해야 한
 	$sudo systemctl daemon-reload
 	$sudo systemctl restart docker
 ```
+
+## 추가사항3
+
+```doc
+Armbian Debian Cinnamon에서 네트워크 설정이 고정이 안되는 상황이 발생한다.
+ $bash ./fix-wifi-persist.sh 를 실행해서 네트워크 설정이 가능해진다.
+```
