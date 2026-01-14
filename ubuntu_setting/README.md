@@ -147,7 +147,7 @@ conda로 각 가상환경을 만들때 rknnlite를 실행한 경우 매번 실�
 ## 추가사항2
 
 ```doc
-docker-ce버전이 29이고 casaos가 0.4.15일때는 아래와 같이해야 한다.
+Ubuntu에서 docker-ce버전이 29이고 casaos가 0.4.15일때는 아래와 같이해야 한다.
 	$sudo nano /usr/lib/systemd/system/docker.service
 	Add bellow
 	[Service]
