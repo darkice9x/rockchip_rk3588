@@ -151,7 +151,8 @@ nmcli con mod "$CONN_NAME" \
     ipv4.method manual \
     ipv4.addresses "$IP_FULL" \
     ipv4.gateway "$GATEWAY" \
-    ipv4.dns "$DNS"
+    ipv4.dns "$DNS" \
+    ipv4.ignore-auto-dns yes
 
 if [ $? -ne 0 ]; then
     echo "[ERROR] 고정 IP 설정 적용 실패"

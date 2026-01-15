@@ -2,16 +2,16 @@
 
 VA_FUNC='
 sel_env() {
-$HOME/.local/bin/sel_env_uv.sh
+source $HOME/.local/bin/sel_env_uv.sh
 }
 add_env(){
-$HOME/.local/bin/python_env_uv.sh
+source $HOME/.local/bin/python_env_uv.sh
 }
 del_env(){
-$HOME/.local/bin/del_env_uv.sh
+source $HOME/.local/bin/del_env_uv.sh
 }
 update_va(){
-$HOME/.local/bin/update_va.sh
+source $HOME/.local/bin/update_va.sh
 }
 '
 
@@ -27,7 +27,8 @@ add_func() {
         echo "[OK] 추가 완료: $file"
     fi
 }
-
+curl -LsSf https://astral.sh/uv/install.sh | sh
+mkdir $HOME/venv
 cp $HOME/ExtUSB/Backup/SyncEnv/env_bash/sel_env_uv.sh $HOME/.local/bin/
 cp $HOME/ExtUSB/Backup/SyncEnv/env_bash/python_env_uv.sh $HOME/.local/bin/
 cp $HOME/ExtUSB/Backup/SyncEnv/env_bash/del_env_uv.sh $HOME/.local/bin/
