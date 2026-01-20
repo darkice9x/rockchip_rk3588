@@ -1,0 +1,146 @@
+[/]
+desklet-decorations=2
+desklet-snap-interval=25
+desktop-effects=false
+enabled-applets=['panel2:left:1:show-desktop@cinnamon.org:1', 'panel2:left:0:grouped-window-list@cinnamon.org:2', 'panel1:right:2:systray@cinnamon.org:3', 'panel1:right:3:xapp-status@cinnamon.org:4', 'panel1:right:4:notifications@cinnamon.org:5', 'panel1:right:5:printers@cinnamon.org:6', 'panel1:right:6:removable-drives@cinnamon.org:7', 'panel1:right:7:keyboard@cinnamon.org:8', 'panel1:right:8:favorites@cinnamon.org:9', 'panel1:right:9:network@cinnamon.org:10', 'panel1:right:10:sound@cinnamon.org:11', 'panel1:right:11:power@cinnamon.org:12', 'panel1:right:1:calendar@cinnamon.org:13', 'panel2:right:0:CinnVIIStarkMenu@NikoKrause:14', 'panel1:right:12:Exit@claudiux:16']
+enabled-desklets=@as []
+enabled-extensions=['transparent-panels@germanfr']
+next-applet-id=17
+next-desklet-id=3
+no-adjacent-panel-barriers=true
+panel-edit-mode=false
+panel-zone-icon-sizes='[{"panelId":1,"left":0,"center":0,"right":24},{"left":0,"center":0,"right":0,"panelId":2}]'
+panel-zone-symbolic-icon-sizes='[{"panelId": 1, "left": 28, "center": 28, "right": 16}, {"left": 28, "center": 28, "right": 28, "panelId": 2}]'
+panel-zone-text-sizes='[{"panelId":1,"left":0,"center":0,"right":0},{"left":0,"center":0,"right":0,"panelId":2}]'
+panels-autohide=['1:false', '2:false']
+panels-enabled=['1:0:top', '2:0:left']
+panels-height=['1:33', '2:48']
+panels-hide-delay=['1:0', '2:0']
+panels-resizable=['1:true']
+panels-show-delay=['1:0', '2:0']
+startup-animation=false
+
+[desktop/a11y/applications]
+screen-keyboard-enabled=false
+screen-reader-enabled=false
+
+[desktop/a11y/mouse]
+dwell-click-enabled=false
+dwell-threshold=10
+dwell-time=1.2
+secondary-click-enabled=false
+secondary-click-time=1.2
+
+[desktop/applications/terminal]
+exec='gnome-terminal'
+
+[desktop/background]
+picture-options='zoom'
+picture-uri='file:///usr/share/backgrounds/SpaceFun.png'
+primary-color='#456789'
+secondary-color='#FFFFFF'
+
+[desktop/background/slideshow]
+delay=15
+image-source='directory:///home/darkice/사진'
+
+[desktop/default-applications/terminal]
+exec='/usr/bin/terminator'
+
+[desktop/interface]
+clock-show-date=true
+cursor-blink-time=1200
+cursor-theme='WhiteSur-cursors'
+font-name='Ubuntu Sans 11'
+gtk-theme='WhiteSur-Dark'
+icon-theme='WhiteSur-dark'
+scaling-factor=uint32 0
+text-scaling-factor=1.0
+toolkit-accessibility=false
+
+[desktop/media-handling]
+autorun-never=false
+
+[desktop/peripherals/keyboard]
+delay=uint32 500
+repeat-interval=uint32 30
+
+[desktop/peripherals/touchpad]
+disable-while-typing=true
+natural-scroll=false
+speed=0.096414342629482119
+
+[desktop/screensaver]
+picture-options='zoom'
+picture-uri='file:///usr/share/backgrounds/armbian-lightdm/armbian03-Dre0x-Minum-dark-3840x2160'
+primary-color='#456789'
+secondary-color='#FFFFFF'
+
+[desktop/sound]
+event-sounds=false
+
+[desktop/wm/preferences]
+num-workspaces=2
+theme='Numix'
+titlebar-font='Ubuntu Sans Bold 11'
+
+[gestures]
+swipe-down-2='PUSH_TILE_DOWN::end'
+swipe-down-3='TOGGLE_OVERVIEW::end'
+swipe-down-4='VOLUME_DOWN::end'
+swipe-left-2='PUSH_TILE_LEFT::end'
+swipe-left-3='WORKSPACE_NEXT::end'
+swipe-left-4='WINDOW_WORKSPACE_PREVIOUS::end'
+swipe-right-2='PUSH_TILE_RIGHT::end'
+swipe-right-3='WORKSPACE_PREVIOUS::end'
+swipe-right-4='WINDOW_WORKSPACE_NEXT::end'
+swipe-up-2='PUSH_TILE_UP::end'
+swipe-up-3='TOGGLE_EXPO::end'
+swipe-up-4='VOLUME_UP::end'
+tap-3='MEDIA_PLAY_PAUSE::end'
+
+[settings-daemon/peripherals/touchpad]
+horiz-scroll-enabled=false
+scroll-method='two-finger-scrolling'
+three-finger-click=2
+two-finger-click=3
+
+[settings-daemon/plugins/power]
+button-power='interactive'
+critical-battery-action='hibernate'
+idle-brightness=30
+idle-dim-time=90
+lid-close-ac-action='nothing'
+lid-close-battery-action='nothing'
+sleep-display-ac=300
+sleep-display-battery=600
+sleep-inactive-ac-timeout=0
+sleep-inactive-battery-timeout=0
+
+[settings-daemon/plugins/xsettings]
+buttons-have-icons=true
+menus-have-icons=true
+
+[sounds]
+close-enabled=true
+close-file='/usr/share/sounds/Smooth/stereo/window-close.oga'
+login-enabled=true
+login-file='/usr/share/sounds/Smooth/stereo/desktop-login.oga'
+logout-enabled=true
+logout-file='/usr/share/sounds/Smooth/stereo/desktop-logout.oga'
+map-file='/usr/share/sounds/Smooth/stereo/window-new.oga'
+maximize-enabled=true
+maximize-file='/usr/share/sounds/Smooth/stereo/window-maximized.oga'
+minimize-enabled=true
+minimize-file='/usr/share/sounds/Smooth/stereo/window-minimized.oga'
+plug-enabled=true
+plug-file='/usr/share/sounds/Yaru/stereo/device-added.oga'
+switch-enabled=true
+tile-enabled=false
+unmaximize-enabled=true
+unmaximize-file='/usr/share/sounds/Smooth/stereo/window-unmaximized.oga'
+unplug-enabled=true
+unplug-file='/usr/share/sounds/Yaru/stereo/device-removed.oga'
+
+[theme]
+name='WhiteSur-Dark'

@@ -26,25 +26,51 @@ sudo apt upgrade -y
 
 # 배포판 판별 (if문)
 if [ "$ID" = "ubuntu" ]; then
-    sudo apt -y install ubuntu-desktop dbus-x11 xterm pulseaudio pavucontrol qtwayland5 \
+	sudo add-apt-repository -y ppa:liujianfeng1994/rockchip-multimedia
+	sudo apt -y install chromium chromium-common
+	sudo apt -y install chromium-l10n chromium-shell chromium-driver
+	sudo apt -y install chromium-sandbox upower fonts-liberation system-config-printer
+	if [ "$DESKTOP_SESSION" = "cinnamon" ]; then
+		echo $DESKTOP_SESSION
+		sudo apt install -y dbus-x11 xterm pavucontrol qtwayland5 \
+		gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good mpv \
+		gstreamer1.0-tools dvb-tools ir-keytable libdvbv5-0 libdvbv5-dev libdvbv5-doc libv4l-0 \
+		libv4l2rds0 libv4lconvert0 libv4l-dev qv4l2 v4l-utils libegl-mesa0 libegl1-mesa-dev \
+		libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglx-mesa0 mesa-common-dev mesa-vulkan-drivers \
+		mesa-utils libcanberra-pulse cinnamon-l10n
+		sudo apt -y install gnome-terminal nautilus shotwell \
+		fonts-ubuntu adwaita-icon-theme curl wget unzip cinnamon-l10n \
+		xdg-utils
+	else
+		echo $DESKTOP_SESSION
+		sudo apt -y install ubuntu-desktop dbus-x11 xterm pavucontrol qtwayland5 \
+		gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good mpv \
+		gstreamer1.0-tools dvb-tools ir-keytable libdvbv5-0 libdvbv5-dev libdvbv5-doc libv4l-0 \
+		libv4l2rds0 libv4lconvert0 libv4l-dev qv4l2 v4l-utils libegl-mesa0 libegl1-mesa-dev \
+		libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglx-mesa0 mesa-common-dev mesa-vulkan-drivers \
+		mesa-utils libcanberra-pulse oem-config-gtk ubiquity-frontend-gtk ubiquity-slideshow-ubuntu \
+		gnome-startup-applications gnome-remote-desktop language-selector-gnome \
+		im-config cinnamon-l10n gnome-tweaks gnome-shell-extension-manager chrome-gnome-shell \
+		software-properties-common
+		
+		
+		#sudo apt-get install -y "fonts-nanum*"
+
+		#echo "Sound System"
+		#sudo apt -y install pipewire-alsa
+		#systemctl --user enable pipewire
+		#systemctl --user start pipewire
+	fi
+elif [ "$ID" = "debian" ]; then
+	sudo apt install -y dbus-x11 xterm pavucontrol qtwayland5 \
 	gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good mpv \
 	gstreamer1.0-tools dvb-tools ir-keytable libdvbv5-0 libdvbv5-dev libdvbv5-doc libv4l-0 \
 	libv4l2rds0 libv4lconvert0 libv4l-dev qv4l2 v4l-utils libegl-mesa0 libegl1-mesa-dev \
 	libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglx-mesa0 mesa-common-dev mesa-vulkan-drivers \
-	mesa-utils libcanberra-pulse oem-config-gtk ubiquity-frontend-gtk ubiquity-slideshow-ubuntu \
-	gnome-startup-applications gnome-remote-desktop language-selector-gnome \
-	im-config cinnamon-l10n
-
-	#sudo apt-get install -y "fonts-nanum*"
-
-	echo "Sound System"
-	sudo apt -y install pipewire-alsa
-	systemctl --user enable pipewire
-	systemctl --user start pipewire
-elif [ "$ID" = "debian" ]; then
+	mesa-utils libcanberra-pulse
 	if [ "$DESKTOP_SESSION" = "cinnamon" ]; then
 		echo $DESKTOP_SESSION
-		sudo apt -y install gnome-terminal nautilus pulseaudio pavucontrol shotwell \
+		sudo apt -y install gnome-terminal nautilus shotwell \
 		fonts-ubuntu adwaita-icon-theme curl wget unzip cinnamon-l10n \
 		xdg-utils
 		#sudo apt purge netplan.io -y
@@ -57,7 +83,8 @@ EOF
 		sudo apt update
 		sudo apt -t bookworm-backports install libdrm-dev libgbm-dev -y
 	else
-		sudo apt install -y gnome-shell gnome-terminal nautilus gdm3 network-manager pulseaudio pavucontrol shotwell \
+		echo $DESKTOP_SESSION
+		sudo apt install -y gnome-shell gnome-terminal nautilus gdm3 network-manager shotwell \
 		gnome-tweaks gnome-software gnome-backgrounds fonts-ubuntu adwaita-icon-theme curl wget unzip cinnamon-l10n \
 		xdg-utils gnome-tweaks gnome-shell-extension-manager chrome-gnome-shell
 	fi
@@ -190,9 +217,11 @@ sudo cp "/etc/default/armbian-zram-config" "/etc/default/armbian-zram-config.bak
 
 # ZRAM_PERCENTAGE 변경
 sudo sed -i 's/^#\s*ZRAM_PERCENTAGE=50/ZRAM_PERCENTAGE=100/' "/etc/default/armbian-zram-config"
+#sudo nano /etc/default/zram-config
 
 # TMP_SIZE 변경
 sudo sed -i 's/^#\s*TMP_SIZE=500M/# TMP_SIZE=16000M/' "/etc/default/armbian-zram-config"
+#sudo nano /etc/default/zram-config
 
 echo "수정 완료 ✅"
 echo "백업 파일: /etc/default/armbian-zram-config.bak"
@@ -228,11 +257,20 @@ elif [ "$ID" = "debian" ]; then
 	sudo cp ~/ExtUSB/Apps/Utils/Debian/* /usr/local/bin/
 fi
 
-RES=$(xrandr | grep '*' | awk '{print $1}')
-WALLPAPER_FILE="/usr/share/wallpapers/SpaceFun/contents/images/$RES.svg"
+mkdir -p $HOME/.local/share/wallpaper
+sudo cp $HOME/ExtUSB/Backup/Wallpaper/SpaceFun.png /usr/share/backgrounds/
+sudo tee /etc/lightdm/lightdm-gtk-greeter.conf > /dev/null << 'EOF'
+[greeter]
+background = /usr/share/backgrounds/SpaceFun.png
+theme-name = WhiteSur-Dark
+icon-theme-name = WhiteSur-dark
+EOF
+cp $HOME/ExtUSB/Backup/Wallpaper/SpaceFun.png $HOME/.local/share/wallpaper
+WALLPAPER_FILE="$HOME/.local/share/wallpaper/SpaceFun.png"
 
-if [ "$ID" = "debian" ]; then
-	if [ "$DESKTOP_SESSION" = "cinnamon" ]; then
+sudo cp -r $HOME/ExtUSB/Backup/Sounds/* /usr/share/sounds/
+
+if [ "$DESKTOP_SESSION" = "cinnamon" ]; then
 		gsettings set org.cinnamon.desktop.default-applications.terminal exec gnome-terminal
 		echo "[INFO] Setting wallpaper."
 		gsettings set org.cinnamon.desktop.background picture-uri "file://$WALLPAPER_FILE"
@@ -254,5 +292,4 @@ Section "Screen"
 	EndSubSection
 EndSection
 EOF
-	fi
 fi
